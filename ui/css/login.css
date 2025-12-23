@@ -4,4 +4,104 @@ body {
   background-color: #f5f7fa;
   margin: 0;
   padding: 0;
+  border: 6px solid #4a90e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #ffffff, #ddddfa);
+  min-height: 98.7vh;
+}
+.container {
+  margin: 0 15px;
+}
+.form-box {
+  width: 100%;
+  max-width: 450px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+}
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #eeeeee;
+  font-size: 16px;
+  font-weight: bold;
+}
+.options-row {
+  display: flex;
+  justify-content: space-between; /* checkbox left, link right */
+  align-items: center; /* vertically align all items */
+  margin: 10px 0;
+}
+
+.options-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between checkbox and text */
+  cursor: pointer;
+}
+
+.options-row input[type="checkbox"] {
+  width: 18px; /* increase size */
+  height: 18px; /* increase size */
+}
+
+.btn-login {
+  width: 100%;
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 15px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.btn-login:hover {
+  background-color: #357abd;
+}
+.form-social {
+  text-align: center;
+  margin-top: 20px;
+  display: flex; /* horizontal layout */
+  justify-content: center; /* center buttons horizontally */
+  gap: 16px; /* space between buttons */
+}
+.form-social button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s; /* smooth hover */
+}
+
+.form-social button:hover {
+  background-color: #d8d8d8; /* hover color */
+}
+
+/* Icon stays same size */
+.form-social .icon {
+  width: 124px;
+  height: 36px;
+  object-fit: contain;
+}
+.register {
+  text-align: center;
+  margin-top: 20px;
 }
