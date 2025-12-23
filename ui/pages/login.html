@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - CareerMate</title>
+    <!-- Font css -->
+    <link rel="stylesheet" href="../css/login.css" />
+    <!-- Font icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Font Google Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="form box" id="login form">
+        <form action="">
+          <h2>Login</h2>
+          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <p>
+            <input type="checkbox" name="remember-me" id="remember-me" />
+            Remember me?
+          </p>
+          <p><button type="submit" name="login">Login</button></p>
+
+          <!-- OAuth buttons -->
+          <div class="form social">
+            <button class="form btn form-social">
+              <img
+                src="../assets/icon/google.svg"
+                class="btn social icon"
+                alt="Google login button"
+              />
+            </button>
+            <button class="form btn form-social">
+              <img
+                src="../assets/icon/facebook.svg"
+                class="btn social icon"
+                alt="Facebook login button"
+              />
+            </button>
+          </div>
+
+          <!-- Link -->
+          <p>Don't have an account? <a href="#">Register</a></p>
+          <p>Forgot Password? <a href="#">Reset Password</a></p>
+        </form>
+      </div>
+    </div>
+  </body>
+
+  <html></html>
+</html>
