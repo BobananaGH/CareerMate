@@ -27,17 +27,24 @@ h2 {
   margin-bottom: 20px;
   font-size: 30px;
 }
-input {
+input,
+select {
   width: 100%;
-  padding: 12px 15px;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 15px;
   margin: 8px 0;
   border: none;
   border-radius: 6px;
-  box-sizing: border-box;
   background-color: #eeeeee;
   font-size: 16px;
   font-weight: bold;
+  box-sizing: border-box;
 }
+select {
+  appearance: none;
+}
+
 .options-row {
   display: flex;
   justify-content: space-between; /* checkbox left, link right */
@@ -57,7 +64,7 @@ input {
   height: 18px; /* increase size */
 }
 
-.btn-login {
+.btn {
   width: 100%;
   background-color: #4a90e2;
   color: white;
@@ -70,38 +77,10 @@ input {
   font-weight: bold;
   transition: background-color 0.2s;
 }
-.btn-login:hover {
+.btn:hover {
   background-color: #357abd;
 }
-.form-social {
-  text-align: center;
-  margin-top: 20px;
-  display: flex; /* horizontal layout */
-  justify-content: center; /* center buttons horizontally */
-  gap: 16px; /* space between buttons */
-}
-.form-social button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s; /* smooth hover */
-}
-
-.form-social button:hover {
-  background-color: #d8d8d8; /* hover color */
-}
-
-/* Icon stays same size */
-.form-social .icon {
-  width: 124px;
-  height: 36px;
-  object-fit: contain;
-}
-.register {
+.alr {
   text-align: center;
   margin-top: 20px;
 }
