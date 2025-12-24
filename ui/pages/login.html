@@ -64,7 +64,10 @@
           </div>
 
           <div class="links">
-            <p>Don't have an account? <a href="#">Register</a></p>
+            <p>
+              Don't have an account?
+              <a href="#" onclick="showForm('register-form')">Register</a>
+            </p>
           </div>
         </form>
       </div>
@@ -87,9 +90,15 @@
           </p>
 
           <div class="links">
-            <p>Already have an account? <a href="#">Login</a></p>
             <p>
-              Want to register as a Recruiter/Mentor? <a href="#">Register</a>
+              Want to register as a Recruiter/Mentor?
+              <a href="#" onclick="showForm('register-recruiter-form')"
+                >Register</a
+              >
+            </p>
+            <p>
+              Already have an account?
+              <a href="#" onclick="showForm('login-form')">Login</a>
             </p>
           </div>
         </form>
@@ -118,11 +127,19 @@
           </p>
 
           <div class="links">
-            <p>Already have an account? <a href="#">Login</a></p>
-            <p>Want to register as a Candidate? <a href="#">Register</a></p>
+            <p>
+              Want to register as a Candidate?
+              <a href="#" onclick="showForm('register-form')">Register</a>
+            </p>
+            <p>
+              Already have an account?
+              <a href="#" onclick="showForm('login-form')">Login</a>
+            </p>
           </div>
         </form>
       </div>
     </div>
+
+    <script src="../../backend/js/login.js"></script>
   </body>
 </html>
