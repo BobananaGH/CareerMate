@@ -26,7 +26,7 @@
   <body>
     <div class="container">
       <!-- Login Form -->
-      <div class="form-box" id="login-form">
+      <div class="form-box active" id="login-form">
         <form action="">
           <h2>Sign In</h2>
 
@@ -63,15 +63,42 @@
             <div class="g_id_signin" data-type="standard"></div>
           </div>
 
-          <div class="alr">
+          <div class="links">
             <p>Don't have an account? <a href="#">Register</a></p>
           </div>
         </form>
       </div>
+
       <!-- Register Form -->
       <div class="form-box" id="register-form">
         <form action="">
-          <h2>Register</h2>
+          <h2>Register as a Candidate</h2>
+
+          <input type="text" name="name" placeholder="FULL NAME" required />
+          <input type="email" name="email" placeholder="EMAIL" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="PASSWORD"
+            required
+          />
+          <p>
+            <button type="submit" name="register" class="btn">Register</button>
+          </p>
+
+          <div class="links">
+            <p>Already have an account? <a href="#">Login</a></p>
+            <p>
+              Want to register as a Recruiter/Mentor? <a href="#">Register</a>
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Form -->
+      <div class="form-box" id="register-recruiter-form">
+        <form action="">
+          <h2>Register as a Recruiter/Mentor</h2>
 
           <input type="text" name="name" placeholder="FULL NAME" required />
           <input type="email" name="email" placeholder="EMAIL" required />
@@ -83,15 +110,16 @@
           />
           <select name="role" required>
             <option value="">SELECT ROLE</option>
-            <option value="user">User</option>
             <option value="recruiter">Recruiter</option>
+            <option value="mentor">Mentor</option>
           </select>
           <p>
             <button type="submit" name="register" class="btn">Register</button>
           </p>
 
-          <div class="alr">
+          <div class="links">
             <p>Already have an account? <a href="#">Login</a></p>
+            <p>Want to register as a Candidate? <a href="#">Register</a></p>
           </div>
         </form>
       </div>
