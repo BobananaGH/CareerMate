@@ -42,3 +42,16 @@ class ProtectedView(APIView):
         return Response({
             "message": f"Hello {request.user.email}, you are authenticated!"
         })
+        
+# ---- Me endpoint to get current user info ----
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "email": user.email,
+        })
+
+
