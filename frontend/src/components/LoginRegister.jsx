@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import "./css/LoginRegister.css";
+import api from "../api.js";
 
 const LoginRegister = () => {
   const [activeForm, setActiveForm] = useState("login");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   console.log("Active form:", activeForm);
 
@@ -12,6 +15,25 @@ const LoginRegister = () => {
     setActiveForm(formName);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await api.post("/users/login/", {
+        email: loginEmail,
+        password: loginPassword,
+      });
+
+      const { access, refresh } = res.data.tokens;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+
+      console.log("Login success", res.data.user);
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err.message);
+    }
+  };
   return (
     <div className="container">
       {/* Login Form */}
@@ -19,14 +41,23 @@ const LoginRegister = () => {
         className={`form-box ${activeForm === "login" ? "active" : ""}`}
         id="login-form"
       >
-        <form>
+        <form onSubmit={handleLogin}>
           <h2>Sign In</h2>
-          <input type="email" name="email" placeholder="EMAIL" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="EMAIL"
+            required
+            value={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
+          />
           <input
             type="password"
             name="password"
             placeholder="PASSWORD"
             required
+            value={loginPassword}
+            onChange={(e) => setLoginPassword(e.target.value)}
           />
           <div className="options-row">
             <label>

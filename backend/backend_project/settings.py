@@ -25,7 +25,14 @@ SECRET_KEY = 'django-insecure-lcb3n%9=8^8nyz@of2b@r=v+*9jaooowwxymks#mbsjfda321y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -40,12 +47,14 @@ INSTALLED_APPS = [
     # Custom apps
     'users',           # your user/account app
     'rest_framework',     # Django REST Framework
+    "corsheaders",        # CORS headers
 ]
 
 # Tell Django to use your custom User model
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   # MUST be at the top
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
