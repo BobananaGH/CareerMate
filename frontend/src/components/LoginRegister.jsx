@@ -1,14 +1,10 @@
 // src/components/LoginRegister.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import "./css/LoginRegister.css";
 
 const LoginRegister = () => {
   const [activeForm, setActiveForm] = useState("login");
-
-  useEffect(() => {
-    console.log("Active form:", activeForm);
-  }, [activeForm]);
 
   const handleFormSwitch = (formName) => {
     setActiveForm(formName);
