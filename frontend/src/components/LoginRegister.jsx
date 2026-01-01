@@ -1,5 +1,5 @@
 // src/components/LoginRegister.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import "./css/LoginRegister.css";
 import api from "../api.js";
@@ -8,10 +8,6 @@ const LoginRegister = () => {
   const [activeForm, setActiveForm] = useState("login");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
-  useEffect(() => {
-    console.log("Active form:", activeForm);
-  }, [activeForm]);
 
   const handleFormSwitch = (formName) => {
     setActiveForm(formName);
