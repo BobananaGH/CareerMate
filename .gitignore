@@ -1,3 +1,14 @@
+# ===== Frontend (React) =====
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# Keep frontend source ALWAYS tracked
+!frontend/src/
+!frontend/public/
+!frontend/package.json
+!frontend/package-lock.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -8,9 +19,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+backend/build/
 develop-eggs/
-dist/
+backend/dist/
 downloads/
 eggs/
 .eggs/
@@ -134,15 +145,13 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Python virtual environments (backend only)
+backend/.venv/
+backend/venv/
+backend/env/
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
 
 # Spyder project settings
 .spyderproject
