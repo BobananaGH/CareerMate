@@ -5,20 +5,18 @@ import App from "./App";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import reportWebVitals from "./reportWebVitals";
 
-// --- TOKEN CHECK ---
+// --- TOKEN CHECK (OK to keep here) ---
 const access = localStorage.getItem("access");
 if (access) {
   try {
-    const payload = JSON.parse(atob(access.split(".")[1])); // decode JWT
+    const payload = JSON.parse(atob(access.split(".")[1]));
     if (Date.now() >= payload.exp * 1000) {
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
+      localStorage.clear();
       console.log("Token expired, cleared from localStorage");
     }
   } catch (err) {
     console.error("Failed to parse token:", err);
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
+    localStorage.clear();
   }
 }
 // --- END TOKEN CHECK ---
@@ -28,11 +26,9 @@ const clientId =
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId={clientId}>
-      <App />
-    </GoogleOAuthProvider>
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId={clientId}>
+    <App />
+  </GoogleOAuthProvider>
 );
 
 reportWebVitals();
