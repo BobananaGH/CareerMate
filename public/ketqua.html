@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kết quả phân tích CV</title>
+  <link rel="stylesheet" href="project.css">
+  <style>
+    .result-box {
+      max-width: 900px;
+      margin: 80px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+    .back-btn {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 10px 20px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="result-box">
+    <h1>📄 Kết quả phân tích CV</h1>
+    <p><strong>File:</strong> <span id="fileName"></span></p>
+    <hr><br>
+
+    <div id="resultText"></div>
+
+    <a href="project.html" class="back-btn">⬅ Quay lại upload</a>
+  </div>
+
+  <script>
+    const result = localStorage.getItem("cv_result");
+    const filename = localStorage.getItem("cv_filename");
+
+    if (!result) {
+      document.getElementById("resultText").innerText =
+        "❌ Không có dữ liệu. Vui lòng upload CV trước.";
+    } else {
+      document.getElementById("resultText").innerText = result;
+      document.getElementById("fileName").innerText = filename || "";
+    }
+  </script>
+
+</body>
+</html>
