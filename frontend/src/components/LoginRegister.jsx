@@ -104,7 +104,26 @@ const LoginRegister = ({ onLoginSuccess }) => {
 
           <div className="form-social">
             <GoogleLogin
-              onSuccess={(cred) => console.log("Google login success:", cred)}
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const res = await api.post("/users/google-login/", {
+                    credential: credentialResponse.credential,
+                  });
+
+                  const { access, refresh } = res.data.tokens;
+                  localStorage.setItem("access", access);
+                  localStorage.setItem("refresh", refresh);
+
+                  // Notify App.jsx that user is logged in
+                  onLoginSuccess(res.data.user);
+                  console.log("Google login successful:", res.data.user);
+                } catch (err) {
+                  console.error(
+                    "Google login failed:",
+                    err.response?.data || err.message
+                  );
+                }
+              }}
               onError={() => console.log("Google login failed")}
             />
           </div>
