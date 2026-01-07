@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import LoginRegister from "./components/LoginRegister";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 import api from "./api";
 
 function App() {
-  console.log("App.jsx mounted");
-
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore auth on refresh
   useEffect(() => {
     const fetchMe = async () => {
       const token = localStorage.getItem("access");
@@ -16,19 +21,15 @@ function App() {
         setLoading(false);
         return;
       }
-
       try {
         const res = await api.get("/users/me/");
         setUser(res.data);
-        console.log("Auto-login success:", res.data);
-      } catch (err) {
-        console.log("Invalid or expired token");
+      } catch {
         localStorage.clear();
       } finally {
         setLoading(false);
       }
     };
-
     fetchMe();
   }, []);
 
@@ -37,19 +38,45 @@ function App() {
     setUser(null);
   };
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-    <>
-      {user ? (
-        <>
-          <h1>Welcome, {user.email}</h1>
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      ) : (
-        <LoginRegister onLoginSuccess={setUser} />
-      )}
-    </>
+    <Router>
+      {/* ALWAYS render Routes, no hooks skipped */}
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            user ? (
+              <Navigate to="/" />
+            ) : (
+              <LoginRegister onLoginSuccess={setUser} />
+            )
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={user ? <Navigate to="/" /> : <ForgotPassword />}
+        />
+        <Route
+          path="/reset-password"
+          element={user ? <Navigate to="/" /> : <ResetPassword />}
+        />
+        <Route
+          path="/"
+          element={
+            loading ? (
+              <p>Loading...</p>
+            ) : user ? (
+              <div>
+                <h1>Welcome, {user.email}</h1>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
