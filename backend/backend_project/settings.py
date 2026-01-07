@@ -50,6 +50,11 @@ INSTALLED_APPS = [
     "corsheaders",        # CORS headers
 ]
 
+INSTALLED_APPS += [
+    "rest_framework_simplejwt.token_blacklist",
+]
+
+
 # Tell Django to use your custom User model
 AUTH_USER_MODEL = 'users.User'
 
@@ -137,3 +142,20 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+# Simple JWT configuration
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+# Email (development)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@careermate.local"
