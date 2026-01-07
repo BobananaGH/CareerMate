@@ -4,6 +4,7 @@ __pycache__/
 db.sqlite3
 venv/
 *.log
+.env
 
 # Ignore frontend folder completely in backend branch
 frontend/
