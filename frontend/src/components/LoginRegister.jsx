@@ -1,8 +1,9 @@
 // src/components/LoginRegister.jsx
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import "./css/LoginRegister.css";
+import "./css/Auth.css";
 import api from "../api";
+import { Link } from "react-router-dom";
 
 const LoginRegister = ({ onLoginSuccess }) => {
   const [activeForm, setActiveForm] = useState("login");
@@ -93,9 +94,9 @@ const LoginRegister = ({ onLoginSuccess }) => {
               Remember me?
             </label>
 
-            <a href="#" className="forgot-password-link">
+            <Link to="/forgot-password" className="forgot-password-link">
               Forgot Password?
-            </a>
+            </Link>
           </div>
 
           <button type="submit" className="btn">
