@@ -8,6 +8,8 @@ import {
 import LoginRegister from "./components/LoginRegister";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import Landing from "./components/Landing";
+import ResultPage from "./components/Result";
 import api from "./api";
 
 function App() {
@@ -38,10 +40,15 @@ function App() {
     setUser(null);
   };
 
+  if (loading) return <p>Loading...</p>;
+
   return (
     <Router>
-      {/* ALWAYS render Routes, no hooks skipped */}
       <Routes>
+        {/* PUBLIC */}
+        <Route path="/" element={<Landing />} />
+
+        {/* AUTH */}
         <Route
           path="/login"
           element={
@@ -52,32 +59,28 @@ function App() {
             )
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* PROTECTED */}
         <Route
-          path="/forgot-password"
-          element={user ? <Navigate to="/" /> : <ForgotPassword />}
+          path="/result"
+          element={user ? <ResultPage /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/reset-password"
-          element={user ? <Navigate to="/" /> : <ResetPassword />}
-        />
-        <Route
-          path="/"
-          element={
-            loading ? (
-              <p>Loading...</p>
-            ) : user ? (
-              <div>
-                <h1>Welcome, {user.email}</h1>
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+
+        {/* FALLBACK */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+
+      {user && (
+        <button
+          onClick={handleLogout}
+          style={{ position: "fixed", top: 20, right: 20 }}
+        >
+          Logout
+        </button>
+      )}
     </Router>
   );
 }
-
 export default App;
