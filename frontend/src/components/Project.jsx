@@ -52,18 +52,15 @@ export default function Landing() {
         </nav>
         <div className={styles.headerAction}>
           <div className={styles.dropdown}>
-            <button className={`${styles.btn} ${styles.btnHelp}`}>
+            <button className="btn btnGhost btnSm">
               <i className="fas fa-question-circle"></i> Help
               <p className={styles.dropdownContent}>
                 No account required, unlimited checks, and guaranteed privacy.
               </p>
             </button>
           </div>
-          <button className={`${styles.btn} ${styles.btnLogin}`}>
+          <button className="btn btnPrimary btnSm">
             <i className="fas fa-sign-in-alt"></i> Log In
-          </button>
-          <button className={`${styles.btn} ${styles.btnSignup}`}>
-            <i className="fas fa-user-plus"></i> Sign Up
           </button>
         </div>
       </header>
@@ -86,7 +83,7 @@ export default function Landing() {
                 className={styles.uploadBox}
                 onClick={() => fileInputRef.current.click()}
               >
-                <button type="button" className={styles.uploadButton}>
+                <button type="button" className="btn btnOutline btnBlock">
                   <i className="fas fa-upload"></i> Upload Your CV
                 </button>
 
@@ -126,28 +123,10 @@ export default function Landing() {
               </div>
             )}
 
-            {aiResults && (
-              <div
-                id="aiResults"
-                style={{
-                  display: "block",
-                  marginTop: "24px",
-                  padding: "24px",
-                  background: "#fff",
-                  borderRadius: "10px",
-                  border: "1px solid #ddd",
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: "15px",
-                  lineHeight: 1.7,
-                  whiteSpace: "pre-wrap",
-                }}
-              >
-                {aiResults}
-              </div>
-            )}
+            {aiResults && <div className={styles.aiResults}>{aiResults}</div>}
 
             <button
-              className={styles.uploadButton}
+              className={`btn btnPrimary btnBlock`}
               onClick={handleUpload}
               disabled={!file}
             >
@@ -188,14 +167,18 @@ export default function Landing() {
                 $29<span>/mo</span>
               </p>
               <p>See what people search and spy on competitors.</p>
-              <button>Get started</button>
+              <button className="btn btnPrimary btnBlock btnSm">
+                Get started
+              </button>
             </div>
 
             <div className={styles.ahrefsCard}>
               <h3>Webmaster Tools 🚀</h3>
               <p className={styles.price}>Free</p>
               <p>Get data on your site.</p>
-              <button>Get started</button>
+              <button className="btn btnPrimary btnBlock btnSm">
+                Get started
+              </button>
             </div>
           </div>
         </div>
