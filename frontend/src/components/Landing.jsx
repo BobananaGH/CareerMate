@@ -171,9 +171,9 @@ export default function Landing() {
       <section className={styles.ahrefsSection}>
         <div className={styles.ahrefsContainer}>
           <h2>
-            Sign up for <span>Phunt</span>.
+            Sign up for <span>CareerMate</span>.
             <br />
-            Stay discoverable—in search, AI, and beyond.
+            ############
           </h2>
 
           <div className={styles.ahrefsCards}>
