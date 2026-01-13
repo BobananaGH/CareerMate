@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 import { Link } from "react-router-dom";
+import styles from "./css/Auth.module.css";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -17,31 +18,39 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="container">
-      <div className="form-box active">
-        <form onSubmit={handleSubmit}>
-          <h2>Forgot Password</h2>
+    <div className={styles.authPage}>
+      <div className={styles.container}>
+        <div className={`${styles.formBox} ${styles.active}`}>
+          <form onSubmit={handleSubmit}>
+            <h2>Forgot Password</h2>
 
-          <input
-            type="email"
-            placeholder="EMAIL"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+            <input
+              type="email"
+              placeholder="EMAIL"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          <button type="submit" className="btn">
-            Send Reset Link
-          </button>
+            <button type="submit" className="btn btnPrimary btnBlock">
+              Send Reset Link
+            </button>
 
-          {message && <p>{message}</p>}
-
-          <div className="links">
-            <p>
-              <Link to="/login">Back to Login</Link>
+            <p
+              className={`${styles.message} ${
+                message.includes("success") ? styles.success : styles.error
+              }`}
+            >
+              {message}
             </p>
-          </div>
-        </form>
+
+            <div className={styles.links}>
+              <p>
+                <Link to="/login">Back to Login</Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 // src/components/LoginRegister.jsx
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import "./css/Auth.css";
+import styles from "./css/Auth.module.css";
 import api from "../api";
 import { Link } from "react-router-dom";
 
@@ -63,143 +63,154 @@ const LoginRegister = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div className="container">
-      {/* ================= LOGIN FORM ================= */}
-      <div className={`form-box ${activeForm === "login" ? "active" : ""}`}>
-        <form onSubmit={handleLogin}>
-          <h2>Sign In</h2>
+    <div className={styles.authPage}>
+      <div className={styles.container}>
+        {/* ================= LOGIN FORM ================= */}
+        <div
+          className={`${styles.formBox} ${
+            activeForm === "login" ? styles.active : ""
+          }`}
+        >
+          <form onSubmit={handleLogin}>
+            <h2>Login</h2>
 
-          <input
-            type="email"
-            placeholder="EMAIL"
-            required
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="PASSWORD"
-            required
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
-
-          <div className="options-row">
-            <label>
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              Remember me?
-            </label>
-
-            <Link to="/forgot-password" className="forgot-password-link">
-              Forgot Password?
-            </Link>
-          </div>
-
-          <button type="submit" className="btn">
-            Login
-          </button>
-
-          <div className="form-social">
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                try {
-                  const res = await api.post("/users/google-login/", {
-                    credential: credentialResponse.credential,
-                  });
-
-                  const { access, refresh } = res.data.tokens;
-                  localStorage.setItem("access", access);
-                  localStorage.setItem("refresh", refresh);
-
-                  // Notify App.jsx that user is logged in
-                  onLoginSuccess(res.data.user);
-                  console.log("Google login successful:", res.data.user);
-                } catch (err) {
-                  console.error(
-                    "Google login failed:",
-                    err.response?.data || err.message
-                  );
-                }
-              }}
-              onError={() => console.log("Google login failed")}
+            <input
+              type="email"
+              placeholder="EMAIL"
+              required
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
             />
-          </div>
 
-          <div className="links">
-            <p>
-              Don't have an account?{" "}
-              <button
-                type="button"
-                className="switch-link"
-                onClick={() => handleFormSwitch("register")}
-              >
-                Register
-              </button>
-            </p>
-          </div>
-        </form>
-      </div>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              required
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
 
-      {/* ================= REGISTER FORM ================= */}
-      <div className={`form-box ${activeForm === "register" ? "active" : ""}`}>
-        <form onSubmit={handleRegister}>
-          <h2>Register</h2>
+            <div className={styles.optionsRow}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                Remember me?
+              </label>
 
-          <input
-            type="text"
-            placeholder="FULL NAME"
-            required
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
+              <Link to="/forgot-password" className={styles.forgotPasswordLink}>
+                Forgot Password?
+              </Link>
+            </div>
 
-          <input
-            type="email"
-            placeholder="EMAIL"
-            required
-            value={registerEmail}
-            onChange={(e) => setRegisterEmail(e.target.value)}
-          />
+            <button type="submit" className="btn btnPrimary btnBlock">
+              Login
+            </button>
 
-          <input
-            type="password"
-            placeholder="PASSWORD"
-            required
-            value={registerPassword}
-            onChange={(e) => setRegisterPassword(e.target.value)}
-          />
+            <div className={styles.formSocial}>
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    const res = await api.post("/users/google-login/", {
+                      credential: credentialResponse.credential,
+                    });
 
-          <select
-            required
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="">SELECT ROLE</option>
-            <option value="candidate">Candidate</option>
-            <option value="recruiter">Recruiter</option>
-          </select>
+                    const { access, refresh } = res.data.tokens;
+                    localStorage.setItem("access", access);
+                    localStorage.setItem("refresh", refresh);
 
-          <button type="submit" className="btn">
-            Register
-          </button>
+                    // Notify App.jsx that user is logged in
+                    onLoginSuccess(res.data.user);
+                    console.log("Google login successful:", res.data.user);
+                  } catch (err) {
+                    console.error(
+                      "Google login failed:",
+                      err.response?.data || err.message
+                    );
+                  }
+                }}
+                onError={() => console.log("Google login failed")}
+              />
+            </div>
 
-          <div className="links">
-            <p>
-              Already have an account?{" "}
-              <button
-                type="button"
-                className="switch-link"
-                onClick={() => handleFormSwitch("login")}
-              >
-                Login
-              </button>
-            </p>
-          </div>
-        </form>
+            <div className={styles.links}>
+              <p>
+                Don't have an account?{" "}
+                <button
+                  type="button"
+                  className={styles.switchLink}
+                  onClick={() => handleFormSwitch("register")}
+                >
+                  Register
+                </button>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        {/* ================= REGISTER FORM ================= */}
+        <div
+          className={`${styles.formBox} ${
+            activeForm === "register" ? styles.active : ""
+          }`}
+        >
+          <form onSubmit={handleRegister}>
+            <h2>Register</h2>
+
+            <input
+              type="text"
+              placeholder="FULL NAME"
+              required
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+
+            <input
+              type="email"
+              placeholder="EMAIL"
+              required
+              value={registerEmail}
+              onChange={(e) => setRegisterEmail(e.target.value)}
+            />
+
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              required
+              value={registerPassword}
+              onChange={(e) => setRegisterPassword(e.target.value)}
+            />
+
+            <select
+              required
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="">SELECT ROLE</option>
+              <option value="candidate">Candidate</option>
+              <option value="recruiter">Recruiter</option>
+            </select>
+
+            <button type="submit" className="btn btnPrimary btnBlock">
+              Register
+            </button>
+
+            <div className={styles.links}>
+              <p>
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  className={styles.switchLink}
+                  onClick={() => handleFormSwitch("login")}
+                >
+                  Login
+                </button>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import styles from "./css/Auth.module.css";
 import api from "../api";
 
 function useQuery() {
@@ -40,39 +41,47 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="container">
-      <div className="form-box active">
-        <form onSubmit={handleSubmit}>
-          <h2>Reset Password</h2>
+    <div className={styles.authPage}>
+      <div className={styles.container}>
+        <div className={`${styles.formBox} ${styles.active}`}>
+          <form onSubmit={handleSubmit}>
+            <h2>Reset Password</h2>
 
-          <input
-            type="password"
-            placeholder="NEW PASSWORD"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            <input
+              type="password"
+              placeholder="NEW PASSWORD"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          <input
-            type="password"
-            placeholder="CONFIRM PASSWORD"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            required
-          />
+            <input
+              type="password"
+              placeholder="CONFIRM PASSWORD"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              required
+            />
 
-          <button type="submit" className="btn">
-            Reset Password
-          </button>
+            <button type="submit" className="btn btnPrimary btnBlock">
+              Reset Password
+            </button>
 
-          {message && <p>{message}</p>}
-
-          <div className="links">
-            <p>
-              <Link to="/login">Back to Login</Link>
+            <p
+              className={`${styles.message} ${
+                message.includes("success") ? styles.success : styles.error
+              }`}
+            >
+              {message}
             </p>
-          </div>
-        </form>
+
+            <div className={styles.links}>
+              <p>
+                <Link to="/login">Back to Login</Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
