@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./css/Project.module.css";
+import api from "../api";
 
 const API_URL = "http://localhost:8000/api/users/analyze/";
 
@@ -21,24 +22,16 @@ export default function Landing({ user, onLogout }) {
     formData.append("resume", file);
 
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        body: formData,
+      const res = await api.post("/users/analyze/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      const data = await res.json();
-
-      if (!data.analysis) {
-        throw new Error("AI không trả kết quả");
-      }
-
-      localStorage.setItem("cv_result", data.analysis);
-      localStorage.setItem("cv_filename", file.name);
-
-      setAiResults(data.analysis);
+      setAiResults(res.data.analysis);
     } catch (err) {
       console.error(err);
-      alert("Có lỗi khi phân tích CV");
+      alert("Upload failed");
     } finally {
       setUploading(false);
     }
