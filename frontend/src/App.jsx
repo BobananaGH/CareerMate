@@ -46,7 +46,10 @@ function App() {
     <Router>
       <Routes>
         {/* PUBLIC */}
-        <Route path="/" element={<Landing />} />
+        <Route
+          path="/"
+          element={<Landing user={user} onLogout={handleLogout} />}
+        />
 
         {/* AUTH */}
         <Route
@@ -62,24 +65,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* PROTECTED */}
-        <Route
-          path="/result"
-          element={user ? <ResultPage /> : <Navigate to="/login" />}
-        />
+        {/* Temp Public */}
+        <Route path="/result" element={<ResultPage />} />
 
         {/* FALLBACK */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-
-      {user && (
-        <button
-          onClick={handleLogout}
-          style={{ position: "fixed", top: 20, right: 20 }}
-        >
-          Logout
-        </button>
-      )}
     </Router>
   );
 }
