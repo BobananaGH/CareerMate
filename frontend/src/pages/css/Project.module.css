@@ -1,101 +1,13 @@
 /*Project.module.css */
-/* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 10px;
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  font-size: 1.6rem;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f8fafc;
-  padding-top: 70px;
-} */
-
-.headerCheckHome {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-
-  background-color: white;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid #e5e7eb;
-
-  height: 70px;
-
-  display: flex;
-  align-items: center;
-}
-
-.headerMainNav {
-  flex: 1;
-  margin-left: 40px;
-}
-
-.headerNavList {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-.headerNavItem {
-  padding: 15px;
-}
-.headerNavItem:hover {
-  color: #2563eb;
-  cursor: pointer;
-}
-.dropdown {
-  position: relative;
-}
-.dropdownContent {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 12px 0;
-  min-width: 350px;
-  text-align: left;
-
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(-100px, 10px);
-  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0, 0, 1);
-
-  z-index: 100;
-}
-
-.dropdown:hover .dropdownContent {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-100px, 0);
-}
-
-.headerAction {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .projectContent {
   min-height: calc(100vh - 140px);
-  padding: 40px 0;
+  padding: 0px 0;
 }
 .checkSection {
   text-align: left;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 100px 60px;
-  padding: 40px 20px;
+  padding: 120px 20px;
 }
 .checkLine {
   font-size: 58px;
@@ -119,33 +31,42 @@ body {
   font-weight: 600;
 }
 .uploadContainer {
+  position: relative;
   background: white;
-  border-radius: 50px;
-  padding: 50px 40px;
+  border-radius: 6px;
+  padding: 80px 80px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  border: 1px dashed #111827;
-  transition: all 0.3s ease;
-  max-width: 600px;
+  border: 2px dashed #585858;
+
+  max-width: 800px;
+  min-height: 420px;
+  width: 100%;
+
   margin: 0 auto;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
+
+.uploadContainer:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
 .uploadBox {
   text-align: center;
-}
-.uploadButton {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  padding: 18px 40px;
-  font-size: 1.8rem;
-  font-weight: 600;
-  border-radius: 12px;
-  cursor: pointer;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
 }
+
 .uploadTitleBox {
   display: flex;
   flex-direction: column;
@@ -154,18 +75,11 @@ body {
   gap: 6px;
   padding: 0;
 }
+
 .uploadTitle {
   font-size: 20px;
   font-weight: 600;
   color: #111827;
-}
-.uploadButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
-}
-
-.uploadButton:active {
-  transform: translateY(0);
 }
 .suggest {
   display: flex;
@@ -281,4 +195,90 @@ body {
   font-size: 1.5rem;
   line-height: 1.7;
   white-space: pre-wrap;
+}
+
+.analyzerWrapper {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.analyzeBtn {
+  margin-top: 24px;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.1);
+  color: #374151;
+
+  border: none;
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadContainer:hover .removeBtn {
+  opacity: 1;
+}
+
+.removeBtn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.resultPage {
+  min-height: calc(100vh - 140px);
+  padding: 80px 20px;
+}
+
+.resultBox {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.resultHeader h1 {
+  margin-bottom: 8px;
+}
+
+.fileName {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.resultContent {
+  margin-top: 24px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.resultContent pre {
+  white-space: pre-wrap;
+  font-family: "Inter", sans-serif;
+}
+
+.emptyState {
+  color: #9ca3af;
+}
+
+.resultActions {
+  margin-top: 32px;
 }

@@ -1,4 +1,3 @@
-// src/components/LoginRegister.jsx
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import styles from "./css/Auth.module.css";

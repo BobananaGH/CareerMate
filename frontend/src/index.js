@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import reportWebVitals from "./reportWebVitals";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 // --- TOKEN CHECK (OK to keep here) ---
 const access = localStorage.getItem("access");
@@ -19,8 +20,8 @@ if (access) {
     localStorage.clear();
   }
 }
-// --- END TOKEN CHECK ---
 
+// --- END TOKEN CHECK ---
 const clientId =
   "376149640618-t1s22d2otnf5t0qh9rd2hg996ularb28.apps.googleusercontent.com";
 

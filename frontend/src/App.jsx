@@ -5,11 +5,16 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import LoginRegister from "./components/LoginRegister";
-import ForgotPassword from "./components/ForgotPassword";
-import ResetPassword from "./components/ResetPassword";
-import Landing from "./components/Landing";
-import ResultPage from "./components/Result";
+
+import LoginRegister from "./pages/LoginRegister";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Landing from "./pages/Landing";
+import ResultPage from "./pages/Result";
+import Analyze from "./pages/Analyze";
+
+import Layout from "./components/Layout";
+import AuthLayout from "./components/AuthLayout";
 import api from "./api";
 
 function App() {
@@ -45,33 +50,34 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* PUBLIC */}
-        <Route
-          path="/"
-          element={<Landing user={user} onLogout={handleLogout} />}
-        />
+        {/* ===== PAGES WITH LAYOUT ===== */}
+        <Route element={<Layout user={user} onLogout={handleLogout} />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/analyze" element={<Analyze />} />
+          <Route path="/result" element={<ResultPage />} />
+        </Route>
 
-        {/* AUTH */}
-        <Route
-          path="/login"
-          element={
-            user ? (
-              <Navigate to="/" />
-            ) : (
-              <LoginRegister onLoginSuccess={setUser} />
-            )
-          }
-        />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        {/* ===== AUTH LAYOUT ===== */}
+        <Route element={<AuthLayout />}>
+          <Route
+            path="/login"
+            element={
+              user ? (
+                <Navigate to="/" />
+              ) : (
+                <LoginRegister onLoginSuccess={setUser} />
+              )
+            }
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Route>
 
-        {/* Temp Public */}
-        <Route path="/result" element={<ResultPage />} />
-
-        {/* FALLBACK */}
+        {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
 }
+
 export default App;
