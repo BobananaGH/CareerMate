@@ -214,7 +214,7 @@ class PasswordResetCompleteAPIView(APIView):
 
 # ===================== CV Analyze =====================
 class CVAnalyzeAPIView(APIView):
-    permission_classes = [IsAuthenticated]  # optional, remove if public
+    permission_classes = []  # Allow any
 
     def post(self, request):
         file: UploadedFile = request.FILES.get("resume")
