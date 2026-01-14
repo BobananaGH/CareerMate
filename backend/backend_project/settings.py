@@ -9,14 +9,19 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
+dotenv_path = BASE_DIR / ".env"
 
+print("Looking for .env at:", dotenv_path)
+print(".env exists?", dotenv_path.exists())
+
+load_dotenv(dotenv_path=dotenv_path)
+
+print("SUPABASE_DB_HOST =", os.environ.get("SUPABASE_DB_HOST"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -96,10 +101,15 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get("SUPABASE_DB_HOST"),
+        'PORT': os.environ.get("SUPABASE_DB_PORT"),
+        'NAME': os.environ.get("SUPABASE_DB_NAME"),
+        'USER': os.environ.get("SUPABASE_DB_USER"),
+        'PASSWORD': os.environ.get("SUPABASE_DB_PASSWORD"),
     }
 }
+
 
 
 # Password validation
@@ -159,16 +169,8 @@ SIMPLE_JWT = {
 }
 
 # Email (development)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "noreply@careermate.local"
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-DEFAULT_FROM_EMAIL = "CareerMate <careermatedev@gmail.com>"
-
-if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
-    print("⚠️ EMAIL ENV VARIABLES NOT LOADED")
+# Claude AI API key (set this in your environment variables)
+CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "")
