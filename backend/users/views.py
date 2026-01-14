@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -215,7 +216,8 @@ class PasswordResetCompleteAPIView(APIView):
 # ===================== CV Analyze =====================
 class CVAnalyzeAPIView(APIView):
     authentication_classes = []
-    permission_classes = [AllowAny]  # Allow any
+    permission_classes = [AllowAny]  
+    parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request):
         file: UploadedFile = request.FILES.get("resume")
