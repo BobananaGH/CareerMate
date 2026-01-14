@@ -126,3 +126,9 @@ code {
   padding: 10px 18px;
   font-size: 1.4rem;
 }
+
+/* Disabled state */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: none;
+}
