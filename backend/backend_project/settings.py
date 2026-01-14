@@ -39,6 +39,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    
+]
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -52,9 +57,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom apps
-    'users',           # your user/account app
-    'rest_framework',     # Django REST Framework
-    "corsheaders",        # CORS headers
+    'users',           
+    'rest_framework',     
+    "corsheaders",        
+    "django_extensions",
 ]
 
 INSTALLED_APPS += [

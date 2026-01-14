@@ -3,7 +3,7 @@ from urllib.parse import quote, unquote
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -214,7 +214,8 @@ class PasswordResetCompleteAPIView(APIView):
 
 # ===================== CV Analyze =====================
 class CVAnalyzeAPIView(APIView):
-    permission_classes = [IsAuthenticated]  # optional, remove if public
+    authentication_classes = []
+    permission_classes = [AllowAny]  # Allow any
 
     def post(self, request):
         file: UploadedFile = request.FILES.get("resume")
