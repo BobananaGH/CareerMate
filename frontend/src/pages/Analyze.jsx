@@ -68,8 +68,8 @@ export default function Analyze() {
 
               <div className={styles.uploadTitleBox}>
                 <p>
-                  <i className="fa-regular fa-file"></i>PDF, DOC, DOCX only. Max
-                  2MB file size.
+                  <i className="fa-regular fa-file"></i> PDF, DOC, DOCX only.
+                  Max 2MB file size.
                 </p>
                 <div className={styles.privacyBadge}>
                   <i className="fas fa-lock"></i> Privacy guaranteed
@@ -105,12 +105,6 @@ export default function Analyze() {
             onChange={handleFileChange}
           />
 
-          {uploading && (
-            <div className={styles.uploadProgress}>
-              <p>Analyzing your resume...</p>
-            </div>
-          )}
-
           <button
             className={`${styles.analyzeBtn} btn btnPrimary btnLrg`}
             onClick={handleUpload}
@@ -118,6 +112,12 @@ export default function Analyze() {
           >
             Analyze CV
           </button>
+          {uploading && (
+            <div className={styles.uploadProgress}>
+              <i className="fa-solid fa-brain"></i>
+              Analyzing your resume…
+            </div>
+          )}
 
           {aiResults && <div className={styles.aiResults}>{aiResults}</div>}
         </section>
