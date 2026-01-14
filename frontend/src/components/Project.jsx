@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import styles from "./css/Project.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import api from "../api";
 
 export default function Landing() {
   const [file, setFile] = useState(null);
@@ -21,11 +22,8 @@ export default function Landing() {
     formData.append("resume", file);
 
     try {
-      const res = await fetch("http://localhost:8000/api/users/analyze/", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
+      const res = await api.post("/users/analyze/", formData);
+      const data = res.data;
 
       if (!data.success || !data.analysis) throw new Error("No result");
 
