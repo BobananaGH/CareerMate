@@ -130,5 +130,14 @@ code {
 /* Disabled state */
 .btn:disabled {
   opacity: 0.5;
-  cursor: none;
+  cursor: default;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.btnPrimary:disabled::after {
+  background: rgba(0, 0, 0, 0);
 }
