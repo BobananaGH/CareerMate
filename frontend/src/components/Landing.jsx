@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./css/Project.module.css";
 
-const API_URL = "http://localhost:3000/api/analyze";
+const API_URL = "http://localhost:8000/api/users/analyze/";
 
-export default function Landing() {
+export default function Landing({ user, onLogout }) {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [aiResults, setAiResults] = useState("");
@@ -28,7 +28,7 @@ export default function Landing() {
 
       const data = await res.json();
 
-      if (!data.success || !data.analysis) {
+      if (!data.analysis) {
         throw new Error("AI không trả kết quả");
       }
 
@@ -65,9 +65,18 @@ export default function Landing() {
             </button>
           </div>
 
-          <button className="btn btnOutline" onClick={() => navigate("/login")}>
-            <i className="fas fa-sign-in-alt"></i> Login
-          </button>
+          {user ? (
+            <button className="btn btnOutline" onClick={onLogout}>
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </button>
+          ) : (
+            <button
+              className="btn btnOutline"
+              onClick={() => navigate("/login")}
+            >
+              <i className="fas fa-sign-in-alt"></i> Login
+            </button>
+          )}
         </div>
       </header>
 
@@ -153,9 +162,9 @@ export default function Landing() {
       <section className={styles.suggest}>
         <div className={styles.suggestHeader}>Rewrite your resume with AI</div>
         <p>
-          Get your resume rewritten by the world’s best AI engine (ChatGPT 4.0)
-          with tailored prompts based on your resume and job description.
-          Generate summaries, skills, and remove buzzwords automatically.
+          Get your resume rewritten by the world’s best AI engine (Claude) with
+          tailored prompts based on your resume and job description. Generate
+          summaries, skills, and remove buzzwords automatically.
         </p>
       </section>
 

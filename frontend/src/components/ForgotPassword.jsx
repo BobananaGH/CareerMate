@@ -35,15 +35,17 @@ export default function ForgotPassword() {
             <button type="submit" className="btn btnPrimary btnBlock">
               Send Reset Link
             </button>
-
-            <p
-              className={`${styles.message} ${
-                message.includes("success") ? styles.success : styles.error
-              }`}
-            >
-              {message}
-            </p>
-
+            {message && (
+              <p
+                className={`${styles.message} ${
+                  message.includes("Password reset email sent")
+                    ? styles.success
+                    : styles.error
+                }`}
+              >
+                {message}
+              </p>
+            )}
             <div className={styles.links}>
               <p>
                 <Link to="/login">Back to Login</Link>
