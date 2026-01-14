@@ -214,6 +214,7 @@ class PasswordResetCompleteAPIView(APIView):
 
 # ===================== CV Analyze =====================
 class CVAnalyzeAPIView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]  # Allow any
 
     def post(self, request):
