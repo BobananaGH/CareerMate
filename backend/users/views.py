@@ -23,8 +23,7 @@ from django.core.files.uploadedfile import UploadedFile
 
 from .serializers import LoginSerializer
 from backend_project.utils.cv_parser import extract_text
-from backend_project.services.claude_service import analyze_cv
-
+from backend_project.services.claude_service import analyze_cv, career_chat
 
 User = get_user_model()
 GOOGLE_CLIENT_ID = "376149640618-t1s22d2otnf5t0qh9rd2hg996ularb28.apps.googleusercontent.com"
@@ -159,6 +158,7 @@ class PasswordResetRequestAPIView(APIView):
         msg.send()
 
         return Response({"message": "Password reset email sent"}, status=200)
+    
 # ===================== Confirm Password Reset =====================
 class PasswordResetConfirmAPIView(APIView):
     def get(self, request):
@@ -180,7 +180,6 @@ class PasswordResetConfirmAPIView(APIView):
 
         is_valid = PasswordResetTokenGenerator().check_token(user, token)
         return Response({"valid": is_valid})
-
 
 # ===================== Complete Password Reset =====================
 class PasswordResetCompleteAPIView(APIView):
@@ -238,3 +237,26 @@ class CVAnalyzeAPIView(APIView):
                 "success": False,
                 "error": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+ 
+# ===================== Career Chat =====================
+class CareerChatView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        message = request.data.get("message")
+
+        if not message:
+            return Response(
+                {"success": False, "error": "Message is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            reply = career_chat(message)
+            return Response({"success": True, "reply": reply})
+
+        except Exception as e:
+            return Response(
+                {"success": False, "error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
