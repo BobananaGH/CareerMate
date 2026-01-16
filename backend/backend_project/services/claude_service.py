@@ -51,3 +51,24 @@ User question:
         raise ValueError("Empty response from AI")
 
     return response.content[0].text
+
+def career_chat_with_context(messages: list[dict]) -> str:
+    """
+    messages = [
+        {"role": "system", "content": "..."},
+        {"role": "user", "content": "..."},
+        {"role": "assistant", "content": "..."}
+    ]
+    """
+
+    response = client.messages.create(
+        model=CLAUDE_MODEL,
+        max_tokens=800,
+        temperature=0.4,
+        messages=messages,
+    )
+
+    if not response.content:
+        raise ValueError("Empty response from AI")
+
+    return response.content[0].text
