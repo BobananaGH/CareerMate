@@ -21,8 +21,6 @@ print(".env exists?", dotenv_path.exists())
 
 load_dotenv(dotenv_path=dotenv_path)
 
-print("SUPABASE_DB_HOST =", os.environ.get("SUPABASE_DB_HOST"))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -127,6 +125,9 @@ else:
         },
     }
 }
+    
+print("USE_SQLITE =", USE_SQLITE)
+print("DB ENGINE =", DATABASES["default"]["ENGINE"])
 
 
 # Password validation
