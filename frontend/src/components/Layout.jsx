@@ -1,8 +1,11 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Layout({ user, onLogout }) {
+  const location = useLocation();
+  const hideFooter = location.pathname.startsWith("/career-chat");
+
   return (
     <>
       <Header user={user} onLogout={onLogout} />
@@ -11,7 +14,7 @@ function Layout({ user, onLogout }) {
         <Outlet />
       </main>
 
-      <Footer />
+      {!hideFooter && <Footer />}
     </>
   );
 }

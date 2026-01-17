@@ -49,7 +49,9 @@
   align-items: center;
   justify-content: center;
 
-  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .uploadContainer:hover {
