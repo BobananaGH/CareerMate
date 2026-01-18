@@ -42,12 +42,18 @@ select {
   line-height: 48px;
   padding: 0 15px;
   margin: 8px 0;
-  border: none;
   border-radius: 6px;
-  background-color: #eeeeee;
+  background-color: var(--cm-bg);
   font-size: 16px;
   font-weight: bold;
   box-sizing: border-box;
+  border: 1px solid var(--cm-border);
+}
+
+input,
+select:focus {
+  outline: none;
+  border-color: var(--cm-primary);
 }
 
 select {
@@ -77,7 +83,7 @@ select {
 .switchLink {
   background: none;
   border: none;
-  color: #4a90e2;
+  color: var(--cm-primary);
   font-weight: bold;
   font: inherit;
   cursor: pointer;

@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 function Layout({ user, onLogout }) {
   const location = useLocation();
-  const hideFooter = location.pathname.startsWith("/career-chat");
+  const hideFooter = location.pathname.startsWith("/careerchat");
 
   return (
     <>

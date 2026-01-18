@@ -4,8 +4,8 @@
   right: 0;
   z-index: 1000;
 
-  background-color: white;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: #fff;
+  border-bottom: 1px solid var(--cm-border);
 
   height: 70px;
   padding: 0 20px;
@@ -25,10 +25,11 @@
 
 .headerNavItem {
   padding: 15px;
+  color: var(--cm-text);
 }
 
 .headerNavItem:hover {
-  color: #2563eb;
+  color: var(--cm-primary-hover);
   cursor: pointer;
 }
 
@@ -38,7 +39,9 @@
   gap: 16px;
 }
 
-/* Dropdown */
+/* =========================
+   DROPDOWN
+   ========================= */
 .dropdown {
   position: relative;
 }
@@ -47,8 +50,10 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
+
+  background-color: #fff;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
   border-radius: 8px;
   padding: 12px 16px;
   min-width: 350px;

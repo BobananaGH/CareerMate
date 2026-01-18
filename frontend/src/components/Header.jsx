@@ -24,9 +24,9 @@ export default function Header({ user, onLogout, minimal = false }) {
           {!minimal && (
             <li
               className={styles.headerNavItem}
-              onClick={() => navigate("/career-chat")}
+              onClick={() => navigate("/careerchat")}
             >
-              Career Chat
+              CareerChat
             </li>
           )}
         </ul>
