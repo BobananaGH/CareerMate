@@ -61,7 +61,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/result" element={<ResultPage />} />
-          <Route path="/careerchat" element={<CareerChat />} />
+          <Route path="/careerchat" element={<CareerChat user={user} />} />
         </Route>
 
         {/* ===== AUTH LAYOUT ===== */}
