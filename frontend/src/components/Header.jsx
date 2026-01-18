@@ -36,7 +36,7 @@ export default function Header({ user, onLogout, minimal = false }) {
       <div className={styles.headerAction}>
         {user && !minimal && (
           <button className="btn btnPrimary" onClick={onLogout}>
-            <i className="fa-solid fa-right-from-bracket"></i>
+            <i className="fa-solid fa-right-from-bracket"></i> Logout
           </button>
         )}
 
