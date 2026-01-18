@@ -5,6 +5,7 @@ db.sqlite3
 venv/
 .env
 *.log
+.env
 
 # Ignore frontend folder completely in backend branch
 frontend/
