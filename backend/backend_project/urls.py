@@ -26,5 +26,5 @@ urlpatterns = [
     path('api/users/', include('users.urls')),  # your existing login endpoint
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path("chat/", include("chat.urls")),
+    path("api/chat/", include("chat.urls")),
 ]

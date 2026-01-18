@@ -1,6 +1,7 @@
 # chat/views.py
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -12,9 +13,10 @@ from backend_project.services.claude_service import career_chat_with_context
 
 
 class SendMessageAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
     def post(self, request):
+        print("RAW BODY:", request.data)
         serializer = SendMessageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -40,7 +42,7 @@ class SendMessageAPIView(APIView):
             content=user_message,
         )
 
-        # ✅ Build context for Claude (NO system role here)
+        # Build context for Claude (NO system role here)
         history = conversation.messages.all().order_by("created_at")
 
         claude_messages = []
@@ -71,9 +73,11 @@ class SendMessageAPIView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+        
 
 
 class ConversationListAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -88,6 +92,7 @@ class ConversationListAPIView(APIView):
         return Response(serializer.data)
 
 class ConversationDetailAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, conversation_id):

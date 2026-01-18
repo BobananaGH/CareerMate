@@ -10,7 +10,7 @@ const api = axios.create({
 // Attach token automatically (supports Remember Me)
 api.interceptors.request.use((config) => {
   const token =
-    localStorage.getItem("access") || sessionStorage.getItem("access");
+    sessionStorage.getItem("access") || localStorage.getItem("access");
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

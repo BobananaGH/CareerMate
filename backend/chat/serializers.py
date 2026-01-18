@@ -6,7 +6,7 @@ class SendMessageSerializer(serializers.Serializer):
     """
     Input serializer for sending a chat message
     """
-    conversation_id = serializers.IntegerField(required=False)
+    conversation_id = serializers.IntegerField(required=False, allow_null=True)
     message = serializers.CharField(max_length=2000)
 
 

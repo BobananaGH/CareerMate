@@ -135,3 +135,7 @@
     opacity: 0.2;
   }
 }
+.userMessage,
+.assistantMessage {
+  white-space: pre-wrap;
+}

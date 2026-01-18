@@ -24,7 +24,9 @@ function App() {
 
   useEffect(() => {
     const fetchMe = async () => {
-      const token = localStorage.getItem("access");
+      const token =
+        sessionStorage.getItem("access") || localStorage.getItem("access");
+
       if (!token) {
         setLoading(false);
         return;
@@ -34,6 +36,8 @@ function App() {
         setUser(res.data);
       } catch {
         localStorage.clear();
+        sessionStorage.clear();
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -43,6 +47,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.clear();
+    sessionStorage.clear();
     setUser(null);
   };
 
