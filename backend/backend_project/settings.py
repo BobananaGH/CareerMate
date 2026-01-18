@@ -21,8 +21,6 @@ print(".env exists?", dotenv_path.exists())
 
 load_dotenv(dotenv_path=dotenv_path)
 
-print("SUPABASE_DB_HOST =", os.environ.get("SUPABASE_DB_HOST"))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -57,7 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom apps
-    'users',           
+    'users', 'accounts','chat',  
     'rest_framework',     
     "corsheaders",        
     "django_extensions",
@@ -104,18 +102,32 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+USE_SQLITE = os.environ.get("USE_SQLITE", "false").lower() == "true"
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get("SUPABASE_DB_HOST"),
-        'PORT': os.environ.get("SUPABASE_DB_PORT"),
-        'NAME': os.environ.get("SUPABASE_DB_NAME"),
-        'USER': os.environ.get("SUPABASE_DB_USER"),
-        'PASSWORD': os.environ.get("SUPABASE_DB_PASSWORD"),
+if USE_SQLITE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.environ.get("SUPABASE_DB_HOST"),
+        "PORT": os.environ.get("SUPABASE_DB_PORT"),
+        "NAME": os.environ.get("SUPABASE_DB_NAME"),
+        "USER": os.environ.get("SUPABASE_DB_USER"),
+        "PASSWORD": os.environ.get("SUPABASE_DB_PASSWORD"),
+        "OPTIONS": {
+            "sslmode": "require",
+        },
     }
 }
-
+    
+print("USE_SQLITE =", USE_SQLITE)
+print("DB ENGINE =", DATABASES["default"]["ENGINE"])
 
 
 # Password validation
