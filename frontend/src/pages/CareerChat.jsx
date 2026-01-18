@@ -2,16 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import api from "../api";
 import styles from "./css/CareerChat.module.css";
 
-export default function CareerChat() {
+export default function CareerChat({ user }) {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const controllerRef = useRef(null);
+  const isAuthenticated = Boolean(user);
 
   const [input, setInput] = useState("");
   const [conversationId, setConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
-  const isLocked = loading || !input.trim();
+  const isLocked = loading || !input.trim() || !isAuthenticated;
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -21,7 +22,7 @@ export default function CareerChat() {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim() || loading) return;
+    if (!isAuthenticated || !input.trim() || loading) return;
 
     controllerRef.current?.abort();
     controllerRef.current = new AbortController();
@@ -85,7 +86,9 @@ export default function CareerChat() {
         <div className={styles.messages}>
           {messages.length === 0 && !loading && (
             <p className={styles.empty}>
-              Start a conversation with CareerChat 🚀
+              {isAuthenticated
+                ? "Start a conversation with CareerChat 🚀"
+                : "Please log in to use CareerChat 🔐"}
             </p>
           )}
 
@@ -119,12 +122,17 @@ export default function CareerChat() {
         <form className={styles.inputBar} onSubmit={handleSend}>
           <input
             type="text"
-            placeholder="Ask about your career..."
+            placeholder={
+              isAuthenticated
+                ? "Ask about your career..."
+                : "Log in to start chatting"
+            }
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            disabled={loading}
+            disabled={loading || !isAuthenticated}
             ref={inputRef}
           />
+
           <button type="submit" className="btn btnPrimary" disabled={isLocked}>
             {loading ? (
               <span className={styles.dots}>
