@@ -1,0 +1,137 @@
+.chatPage {
+  display: flex;
+  height: calc(99vh - 64px);
+  background: var(--cm-bg);
+}
+
+.chatMain {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.messages {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.empty {
+  color: var(--cm-muted);
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* =========================
+   USER (RIGHT)
+   ========================= */
+.userMessage {
+  align-self: flex-end;
+  background: var(--cm-gradient);
+  color: #fff;
+
+  padding: 12px 16px;
+  border-radius: 14px 14px 0 14px;
+
+  max-width: 70%;
+  margin-bottom: 14px;
+}
+
+/* =========================
+   ASSISTANT (LEFT)
+   ========================= */
+.assistantMessage {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--cm-text);
+
+  padding: 0;
+  margin-bottom: 18px;
+
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+/* =========================
+   INPUT BAR
+   ========================= */
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  height: 64px;
+  padding: 0 16px;
+
+  border-top: 1px solid var(--cm-border);
+  background: #fff;
+}
+
+.inputBar input {
+  flex: 1;
+  height: 40px;
+
+  padding: 0 14px;
+  font-size: 1.5rem;
+
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+}
+
+.inputBar input:focus {
+  outline: none;
+  border-color: var(--cm-primary);
+}
+
+/* Button already uses .btnPrimary globally */
+.inputBar button {
+  height: 40px;
+  width: 60px;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+
+  border-radius: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   TYPING INDICATOR
+   ========================= */
+.typing {
+  opacity: 0.7;
+  font-style: italic;
+  color: var(--cm-muted);
+}
+
+.dots span {
+  animation: blink 1.4s infinite both;
+}
+
+.dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

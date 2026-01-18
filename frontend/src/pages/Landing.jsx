@@ -17,8 +17,8 @@ export default function Landing({ user, onLogout }) {
             </h1>
 
             <p className={styles.checkDescription}>
-              This is a <strong>free AI checker</strong> to ensure your CV is
-              ready to perform and get interviews.
+              <strong>An AI-Powered</strong> resume analysis to ensure your CV
+              is ready to perform and get interviews.
             </p>
 
             <button

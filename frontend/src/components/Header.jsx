@@ -20,6 +20,15 @@ export default function Header({ user, onLogout, minimal = false }) {
               Resume Check
             </li>
           )}
+
+          {!minimal && (
+            <li
+              className={styles.headerNavItem}
+              onClick={() => navigate("/careerchat")}
+            >
+              CareerChat
+            </li>
+          )}
         </ul>
       </nav>
 

@@ -12,6 +12,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Landing from "./pages/Landing";
 import ResultPage from "./pages/Result";
 import Analyze from "./pages/Analyze";
+import CareerChat from "./pages/CareerChat";
 
 import Layout from "./components/Layout";
 import AuthLayout from "./components/AuthLayout";
@@ -55,6 +56,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/result" element={<ResultPage />} />
+          <Route path="/careerchat" element={<CareerChat />} />
         </Route>
 
         {/* ===== AUTH LAYOUT ===== */}
