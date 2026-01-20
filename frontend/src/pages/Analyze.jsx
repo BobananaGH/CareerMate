@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
 import styles from "./css/Project.module.css";
 import api from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function Analyze() {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [aiResults, setAiResults] = useState("");
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleRemoveFile = () => {
     setFile(null);
-    setAiResults("");
   };
 
   const handleFileChange = (e) => {
@@ -32,9 +32,9 @@ export default function Analyze() {
 
       if (!data.success || !data.analysis) throw new Error("No result");
 
-      setAiResults(data.analysis);
       localStorage.setItem("cv_result", data.analysis);
       localStorage.setItem("cv_filename", file.name);
+      navigate("/result");
     } catch (err) {
       console.error(err);
       alert("Error analyzing CV");
@@ -118,8 +118,6 @@ export default function Analyze() {
               Analyzing your resume…
             </div>
           )}
-
-          {aiResults && <div className={styles.aiResults}>{aiResults}</div>}
         </section>
       </main>
     </div>
