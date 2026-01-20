@@ -55,7 +55,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom apps
-    'users', 'accounts','chat',  
+    'users', 
+    'accounts', 
+    'chat', 
+    'monitoring',
+    # Third-party apps
     'rest_framework',     
     "corsheaders",        
     "django_extensions",
