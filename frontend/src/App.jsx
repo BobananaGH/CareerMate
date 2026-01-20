@@ -6,6 +6,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import AdminMonitor from "./admin/AdminMonitor";
+
 import LoginRegister from "./pages/LoginRegister";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -56,6 +58,8 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* ===== ADMIN MONITOR ===== */}
+        <Route path="/admin-monitor" element={<AdminMonitor user={user} />} />
         {/* ===== PAGES WITH LAYOUT ===== */}
         <Route element={<Layout user={user} onLogout={handleLogout} />}>
           <Route path="/" element={<Landing />} />
