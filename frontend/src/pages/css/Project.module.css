@@ -308,11 +308,11 @@
 }
 
 .analysisText {
-  font-size: 1.125rem;
+  font-size: 1.3rem;
   line-height: 1.8;
   white-space: pre-wrap;
 }
 
 .analysisText br {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
