@@ -1,10 +1,18 @@
+# monitoring/views.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from chat.models import Conversation
-from .serializers import ConversationAdminSerializer
+from resumes.models import CV
+
+from .serializers import (
+    ConversationAdminSerializer,
+    CVAdminSerializer,
+)
 from .permissions import IsAdminUserCustom
+
 
 class AdminConversationListAPIView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -17,6 +25,21 @@ class AdminConversationListAPIView(APIView):
             .prefetch_related("messages")
             .order_by("-updated_at")[:50]
         )
+        return Response(
+            ConversationAdminSerializer(conversations, many=True).data
+        )
 
-        serializer = ConversationAdminSerializer(conversations, many=True)
-        return Response(serializer.data)
+
+class AdminCVListAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def get(self, request):
+        cvs = (
+            CV.objects
+            .select_related("user")
+            .order_by("-uploaded_at")[:50]
+        )
+        return Response(
+            CVAdminSerializer(cvs, many=True).data
+        )
