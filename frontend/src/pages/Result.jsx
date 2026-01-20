@@ -34,7 +34,7 @@ export default function ResultPage() {
           <button
             type="button"
             className="btn btnPrimary"
-            onClick={() => navigate("/analyzer")}
+            onClick={() => navigate("/analyze")}
           >
             Back to Resume Upload
           </button>
