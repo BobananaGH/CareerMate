@@ -22,7 +22,7 @@ export default function ResultPage() {
 
         <div className={styles.resultContent}>
           {result ? (
-            <pre>{result}</pre>
+            <p className={styles.analysisText}>{result}</p>
           ) : (
             <p className={styles.emptyState}>
               No analysis data found. Please upload and analyze a resume first.
