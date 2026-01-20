@@ -41,17 +41,15 @@ class SendMessageAPIView(APIView):
             role="user",
             content=user_message,
         )
-
-        # Build context for Claude (NO system role here)
+        
         history = conversation.messages.all().order_by("created_at")
 
-        claude_messages = []
-        for msg in history:
-            claude_messages.append({
-                "role": msg.role,       # "user" or "assistant"
-                "content": msg.content
-            })
-
+        claude_messages = [
+            {"role": msg.role, "content": msg.content}
+            for msg in history
+            if msg.role in ["user", "assistant"]
+        ]
+        
         # Call Claude
         ai_reply = career_chat_with_context(claude_messages)
 
