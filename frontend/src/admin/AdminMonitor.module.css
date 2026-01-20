@@ -1,0 +1,68 @@
+.container {
+  padding: 2.4rem;
+  background: var(--cm-bg);
+  color: var(--cm-text);
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.section {
+  margin-top: 2.4rem;
+}
+
+.sectionLarge {
+  margin-top: 3.2rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid var(--cm-border);
+  padding: 8px;
+  vertical-align: top;
+}
+
+.table th {
+  background: rgba(var(--cm-primary-rgb), 0.05);
+  color: var(--cm-text-soft);
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--cm-muted);
+}
+
+.expandedRow {
+  background: #fff;
+}
+
+.expandedBox {
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--cm-bg);
+  border: 1px solid var(--cm-border);
+  padding: 1.2rem;
+}
+
+.message {
+  margin-bottom: 1.2rem;
+  white-space: pre-wrap;
+}
+
+.role {
+  font-weight: 700;
+  color: var(--cm-primary);
+}
+
+.timestamp {
+  font-size: 1.2rem;
+  color: var(--cm-muted);
+}
