@@ -46,7 +46,10 @@ class LoginAPIView(APIView):
             "user": {
                 "id": user.id,
                 "email": user.email,
-            },
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser,
+                },
+
             "tokens": {
                 "access": access_token,
                 "refresh": refresh_token,
@@ -90,7 +93,9 @@ class GoogleLoginAPIView(APIView):
                 "user": {
                     "id": user.id,
                     "email": user.email,
-                },
+                    "is_staff": user.is_staff,
+                    "is_superuser": user.is_superuser,
+                    },
                 "tokens": {
                     "access": access_token,
                     "refresh": refresh_token,
@@ -119,6 +124,8 @@ class MeView(APIView):
         return Response({
             "id": user.id,
             "email": user.email,
+            "is_staff": user.is_staff,
+            "is_superuser": user.is_superuser,
         })
         
 # ===================== Request Password Reset =====================
