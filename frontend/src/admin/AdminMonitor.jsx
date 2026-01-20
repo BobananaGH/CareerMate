@@ -14,8 +14,8 @@ export default function AdminMonitor({ user }) {
     const fetchAdminData = async () => {
       try {
         const [convRes, cvRes] = await Promise.all([
-          api.get("/monitoring/conversations/"),
-          api.get("/monitoring/cvs/"),
+          api.get("/admin/monitoring/conversations/"),
+          api.get("/admin/monitoring/cvs/"),
         ]);
 
         setConversations(convRes.data);
