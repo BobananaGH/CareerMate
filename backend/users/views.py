@@ -238,25 +238,3 @@ class CVAnalyzeAPIView(APIView):
                 "error": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
  
-# ===================== Career Chat =====================
-class CareerChatView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        message = request.data.get("message")
-
-        if not message:
-            return Response(
-                {"success": False, "error": "Message is required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        try:
-            reply = career_chat(message)
-            return Response({"success": True, "reply": reply})
-
-        except Exception as e:
-            return Response(
-                {"success": False, "error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )

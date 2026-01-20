@@ -7,7 +7,6 @@ from .views import (
     PasswordResetRequestAPIView,
     PasswordResetConfirmAPIView,
     PasswordResetCompleteAPIView,
-    CVAnalyzeAPIView
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -21,5 +20,4 @@ urlpatterns = [
     path("password-reset/", PasswordResetRequestAPIView.as_view()),
     path("password-reset/confirm/", PasswordResetConfirmAPIView.as_view()),  
     path("password-reset/complete/", PasswordResetCompleteAPIView.as_view()),
-    path("analyze/", CVAnalyzeAPIView.as_view(), name="cv-analyze"),
 ]

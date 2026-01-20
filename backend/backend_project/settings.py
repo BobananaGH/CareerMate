@@ -55,7 +55,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom apps
-    'users', 'accounts','chat',  
+    'users',  
+    'chat', 
+    'monitoring',
+    'resumes',
+    # Third-party apps
     'rest_framework',     
     "corsheaders",        
     "django_extensions",
@@ -192,3 +196,7 @@ DEFAULT_FROM_EMAIL = "noreply@careermate.local"
 
 # Claude AI API key (set this in your environment variables)
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "")
+
+# Upload limits (CVs)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024   
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024   
