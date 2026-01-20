@@ -27,7 +27,7 @@ export default function Analyze() {
     formData.append("resume", file);
 
     try {
-      const res = await api.post("/users/analyze/", formData);
+      const res = await api.post("/resumes/analyze/", formData);
       const data = res.data;
 
       if (!data.success || !data.analysis) throw new Error("No result");
