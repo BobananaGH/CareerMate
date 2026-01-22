@@ -190,9 +190,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-# Email (development)
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "noreply@careermate.local"
 
 # Claude AI API key (set this in your environment variables)
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "")
@@ -200,3 +197,14 @@ CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "")
 # Upload limits (CVs)
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024   
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024   
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = f"CareerMate <{EMAIL_HOST_USER}>"
