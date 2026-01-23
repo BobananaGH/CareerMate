@@ -306,3 +306,13 @@
 .resultActions {
   margin-top: 32px;
 }
+
+.analysisText {
+  font-size: 1.4rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.analysisText br {
+  margin-bottom: 10px;
+}
