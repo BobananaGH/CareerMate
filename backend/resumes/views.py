@@ -32,6 +32,10 @@ class CVAnalyzeAPIView(APIView):
         cv_text = extract_text(file)
         analysis = analyze_cv(cv_text)
 
+        cv.extracted_text = cv_text
+        cv.analysis = analysis
+        cv.save(update_fields=["extracted_text", "analysis"])
+
         return Response({
             "success": True,
             "cv_id": cv.id,
