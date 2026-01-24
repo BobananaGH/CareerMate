@@ -7,6 +7,7 @@ export default function AdminMonitor({ user }) {
   const [conversations, setConversations] = useState([]);
   const [cvs, setCVs] = useState([]);
   const [expandedConvId, setExpandedConvId] = useState(null);
+  const [expandedCVId, setExpandedCVId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -122,25 +123,60 @@ export default function AdminMonitor({ user }) {
               <th>User</th>
               <th>File</th>
               <th>Uploaded</th>
+              <th>Inspect</th>
             </tr>
           </thead>
           <tbody>
             {cvs.map((cv) => (
-              <tr key={cv.id}>
-                <td>{cv.id}</td>
-                <td>{cv.user_email || "—"}</td>
-                <td>
-                  <a
-                    href={cv.file}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btnGhost btnSm"
-                  >
-                    Download
-                  </a>
-                </td>
-                <td>{new Date(cv.uploaded_at).toLocaleString()}</td>
-              </tr>
+              <React.Fragment key={cv.id}>
+                <tr>
+                  <td>{cv.id}</td>
+                  <td>{cv.user_email || "—"}</td>
+                  <td>
+                    <a
+                      href={cv.file}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btnGhost btnSm"
+                    >
+                      Download
+                    </a>
+                  </td>
+                  <td>{new Date(cv.uploaded_at).toLocaleString()}</td>
+                  <td>
+                    <button
+                      className="btn btnOutline btnSm"
+                      onClick={() =>
+                        setExpandedCVId(expandedCVId === cv.id ? null : cv.id)
+                      }
+                    >
+                      {expandedCVId === cv.id ? "Hide" : "View"}
+                    </button>
+                  </td>
+                </tr>
+
+                {expandedCVId === cv.id && (
+                  <tr className={styles.expandedRow}>
+                    <td colSpan="5">
+                      <div className={styles.expandedBox}>
+                        <h4>AI Analysis</h4>
+                        <pre className={styles.analysis}>
+                          {cv.analysis || "No analysis available"}
+                        </pre>
+
+                        {cv.extracted_text && (
+                          <>
+                            <h4>Extracted Text</h4>
+                            <pre className={styles.extracted}>
+                              {cv.extracted_text}
+                            </pre>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
