@@ -14,6 +14,7 @@ class ConversationAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = ["id", "user_email", "created_at", "updated_at", "messages"]
+        
 class CVAdminSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(
         source="user.email",
@@ -23,4 +24,4 @@ class CVAdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CV
-        fields = ["id", "user_email", "file", "uploaded_at"]
+        fields = ["id", "user_email", "file", "uploaded_at","extracted_text", "analysis"]
