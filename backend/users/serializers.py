@@ -18,7 +18,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid email or password")
 
         user = authenticate(
-            username=user_obj.username,  # THIS is the key
+            username=user_obj.username,  
             password=password
         )
 
