@@ -185,6 +185,7 @@ class MeView(APIView):
         first_name = request.data.get("first_name")
         last_name = request.data.get("last_name")
         email = request.data.get("email")
+        role = request.data.get("role")
 
         # prevent duplicate emails
         if email and User.objects.exclude(id=user.id).filter(email=email).exists():
@@ -199,6 +200,11 @@ class MeView(APIView):
         if email is not None:
             user.email = email
             user.username = email
+        
+        if role is not None:
+            if role not in ["candidate", "recruiter"]:
+                return Response({"error": "Invalid role"}, status=400)
+            user.role = role
 
         user.save()
 
