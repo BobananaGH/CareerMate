@@ -7,13 +7,15 @@ from .views import (
     PasswordResetRequestAPIView,
     PasswordResetConfirmAPIView,
     PasswordResetCompleteAPIView,
-    AdminUsersAPIView
+    AdminUsersAPIView,
+    RegisterAPIView,
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
 # users/urls.py
 urlpatterns = [
     path("login/", LoginAPIView.as_view(), name="login"),
+    path("register/", RegisterAPIView.as_view(), name="register"),
     path("google-login/", GoogleLoginAPIView.as_view(), name="google-login"),
     path("protected/", ProtectedView.as_view(), name="protected"),
     path("me/", MeView.as_view(), name="me"),

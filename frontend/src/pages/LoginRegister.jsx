@@ -13,7 +13,8 @@ const LoginRegister = ({ onLoginSuccess }) => {
   const [rememberMe, setRememberMe] = useState(false);
 
   // REGISTER STATE
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [role, setRole] = useState("");
@@ -48,13 +49,18 @@ const LoginRegister = ({ onLoginSuccess }) => {
 
     try {
       await api.post("/users/register/", {
-        name: fullName,
+        first_name: firstName,
+        last_name: lastName,
         email: registerEmail,
         password: registerPassword,
         role,
       });
+      setFirstName("");
+      setLastName("");
+      setRegisterEmail("");
+      setRegisterPassword("");
+      setRole("");
 
-      // After successful register → go to login
       setActiveForm("login");
     } catch (err) {
       console.error("Register failed:", err.response?.data || err.message);
@@ -126,7 +132,7 @@ const LoginRegister = ({ onLoginSuccess }) => {
                   } catch (err) {
                     console.error(
                       "Google login failed:",
-                      err.response?.data || err.message
+                      err.response?.data || err.message,
                     );
                   }
                 }}
@@ -160,10 +166,18 @@ const LoginRegister = ({ onLoginSuccess }) => {
 
             <input
               type="text"
-              placeholder="FULL NAME"
+              placeholder="FIRST NAME"
               required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="LAST NAME"
+              required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
 
             <input

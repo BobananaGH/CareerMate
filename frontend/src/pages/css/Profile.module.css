@@ -1,0 +1,43 @@
+.profilePage {
+  min-height: calc(100vh - 140px);
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  margin-top: 30px;
+  background: white;
+  border: 1px solid var(--cm-border);
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row span {
+  color: var(--cm-muted);
+}
+
+.role {
+  color: var(--cm-primary);
+  text-transform: capitalize;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
