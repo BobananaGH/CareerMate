@@ -31,6 +31,18 @@ class JobListCreateView(generics.ListCreateAPIView):
         return Job.objects.filter(is_active=True, is_approved=True).order_by("-created_at")
 
 
+class JobDetailView(generics.RetrieveAPIView):
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_superuser or user.role == "recruiter":
+            return Job.objects.all()
+
+        return Job.objects.filter(is_active=True, is_approved=True)
+
 
 
 class ApplyJobView(generics.CreateAPIView):
@@ -38,7 +50,14 @@ class ApplyJobView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsCandidate]
 
     def perform_create(self, serializer):
+        job = serializer.validated_data["job"]
+
+        if Application.objects.filter(candidate=self.request.user, job=job).exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("Already applied")
+
         serializer.save(candidate=self.request.user)
+
 
 
 class RecruiterApplicationsView(generics.ListAPIView):
