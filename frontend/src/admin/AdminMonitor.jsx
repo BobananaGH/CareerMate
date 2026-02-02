@@ -1,56 +1,122 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import api from "../api";
 import styles from "./AdminMonitor.module.css";
+
+const REFRESH_INTERVAL = 10000; // 10s
 
 export default function AdminMonitor({ user }) {
   const [conversations, setConversations] = useState([]);
   const [cvs, setCVs] = useState([]);
   const [expandedConvId, setExpandedConvId] = useState(null);
+  const [expandedCvId, setExpandedCvId] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        const [convRes, cvRes] = await Promise.all([
-          api.get("/admin/monitoring/conversations/"),
-          api.get("/admin/monitoring/cvs/"),
-        ]);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
-        setConversations(convRes.data);
-        setCVs(cvRes.data);
-      } catch {
-        setError("Failed to load admin monitoring data.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [users, setUsers] = useState([]);
 
-    if (user?.is_staff) {
-      fetchAdminData();
-    } else {
+  const sortedUsers = useMemo(
+    () =>
+      [...users].sort(
+        (a, b) => new Date(b.date_joined) - new Date(a.date_joined),
+      ),
+    [users],
+  );
+
+  const fetchAdminData = async () => {
+    try {
+      const [convRes, cvRes, usersRes] = await Promise.all([
+        api.get("/admin/monitoring/conversations/"),
+        api.get("/admin/monitoring/cvs/"),
+        api.get("/users/admin/users/"),
+      ]);
+
+      setConversations(convRes.data);
+      setCVs(cvRes.data);
+      setUsers(usersRes.data);
+      setError(null);
+    } catch {
+      setError("Failed to load admin monitoring data.");
+    } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    if (!user?.is_staff) return;
+
+    fetchAdminData();
+
+    const interval = setInterval(fetchAdminData, REFRESH_INTERVAL);
+    return () => clearInterval(interval);
   }, [user]);
 
-  if (!user?.is_staff) {
-    return <Navigate to="/" replace />;
-  }
+  if (!user?.is_staff) return <Navigate to="/" replace />;
 
-  if (loading) {
-    return <p className={styles.muted}>Loading admin monitor…</p>;
-  }
+  if (loading) return <p className={styles.muted}>Loading admin monitor…</p>;
+  if (error) return <p className={styles.muted}>{error}</p>;
 
-  if (error) {
-    return <p className={styles.muted}>{error}</p>;
-  }
+  // ================= FILTERING =================
+
+  const filteredCVs = cvs.filter((cv) => {
+    const matchSearch =
+      cv.user_email?.toLowerCase().includes(search.toLowerCase()) ||
+      cv.extracted_text?.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus = statusFilter === "all" || cv.status === statusFilter;
+
+    return matchSearch && matchStatus;
+  });
+
+  const statusColor = (status) => {
+    switch (status) {
+      case "processed":
+        return styles.green;
+      case "failed":
+        return styles.red;
+      default:
+        return styles.orange;
+    }
+  };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Admin Monitor</h1>
 
+      {/* ================= CONTROLS ================= */}
+
+      <div className={styles.controls}>
+        <input
+          placeholder="Search email or content…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="pending">Pending</option>
+          <option value="processed">Processed</option>
+          <option value="failed">Failed</option>
+        </select>
+
+        <button className="btn btnOutline" onClick={fetchAdminData}>
+          Refresh
+        </button>
+
+        <span className={styles.count}>
+          CVs: {filteredCVs.length} / {cvs.length}
+        </span>
+      </div>
+
       {/* ================= CONVERSATIONS ================= */}
+
       <section className={styles.section}>
         <h2>Recent Conversations</h2>
 
@@ -61,9 +127,10 @@ export default function AdminMonitor({ user }) {
               <th>User</th>
               <th>Messages</th>
               <th>Updated</th>
-              <th>Inspect</th>
+              <th></th>
             </tr>
           </thead>
+
           <tbody>
             {conversations.map((conv) => (
               <React.Fragment key={conv.id}>
@@ -74,7 +141,7 @@ export default function AdminMonitor({ user }) {
                   <td>{new Date(conv.updated_at).toLocaleString()}</td>
                   <td>
                     <button
-                      className="btn btnOutline btnSm"
+                      className="btn btnSm"
                       onClick={() =>
                         setExpandedConvId(
                           expandedConvId === conv.id ? null : conv.id,
@@ -87,18 +154,16 @@ export default function AdminMonitor({ user }) {
                 </tr>
 
                 {expandedConvId === conv.id && (
-                  <tr className={styles.expandedRow}>
+                  <tr>
                     <td colSpan="5">
                       <div className={styles.expandedBox}>
-                        {conv.messages.map((msg) => (
-                          <div key={msg.id} className={styles.message}>
-                            <span className={styles.role}>
-                              {msg.role.toUpperCase()}
-                            </span>{" "}
-                            <span className={styles.timestamp}>
-                              ({new Date(msg.created_at).toLocaleString()})
-                            </span>
-                            <div>{msg.content}</div>
+                        {conv.messages.map((m) => (
+                          <div key={m.id}>
+                            <b>{m.role}</b>{" "}
+                            <small>
+                              {new Date(m.created_at).toLocaleString()}
+                            </small>
+                            <div>{m.content}</div>
                           </div>
                         ))}
                       </div>
@@ -112,34 +177,95 @@ export default function AdminMonitor({ user }) {
       </section>
 
       {/* ================= CVS ================= */}
+
       <section className={styles.sectionLarge}>
-        <h2>Recent CV Uploads</h2>
+        <h2>CV Uploads</h2>
 
         <table className={styles.table}>
           <thead>
             <tr>
               <th>ID</th>
               <th>User</th>
-              <th>File</th>
+              <th>Status</th>
               <th>Uploaded</th>
+              <th></th>
+              <th>File</th>
             </tr>
           </thead>
+
           <tbody>
-            {cvs.map((cv) => (
-              <tr key={cv.id}>
-                <td>{cv.id}</td>
-                <td>{cv.user_email || "—"}</td>
-                <td>
-                  <a
-                    href={cv.file}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btnGhost btnSm"
-                  >
-                    Download
-                  </a>
-                </td>
-                <td>{new Date(cv.uploaded_at).toLocaleString()}</td>
+            {filteredCVs.map((cv) => (
+              <React.Fragment key={cv.id}>
+                <tr>
+                  <td>{cv.id}</td>
+                  <td>{cv.user_email || "—"}</td>
+
+                  <td>
+                    <span
+                      className={`${styles.badge} ${statusColor(cv.status)}`}
+                    >
+                      {cv.status || "pending"}
+                    </span>
+                  </td>
+
+                  <td>{new Date(cv.uploaded_at).toLocaleString()}</td>
+
+                  <td>
+                    <button
+                      className="btn btnSm"
+                      onClick={() =>
+                        setExpandedCvId(expandedCvId === cv.id ? null : cv.id)
+                      }
+                    >
+                      {expandedCvId === cv.id ? "Hide" : "View"}
+                    </button>
+                  </td>
+
+                  <td>
+                    <a href={cv.file} target="_blank" rel="noreferrer">
+                      Download
+                    </a>
+                  </td>
+                </tr>
+
+                {expandedCvId === cv.id && (
+                  <tr>
+                    <td colSpan="6">
+                      <div className={styles.expandedBox}>
+                        <h4>Extracted Text</h4>
+                        <pre>{cv.extracted_text || "—"}</pre>
+
+                        <h4>AI Analysis</h4>
+                        <pre>{cv.analysis || "—"}</pre>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section className={styles.section}>
+        <h2>Users ({sortedUsers.length})</h2>
+
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Staff</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {sortedUsers.map((u) => (
+              <tr key={u.id}>
+                <td>{u.id}</td>
+                <td>{u.email}</td>
+                <td>{u.is_staff ? "Yes" : "No"}</td>
+                <td>{new Date(u.date_joined).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
