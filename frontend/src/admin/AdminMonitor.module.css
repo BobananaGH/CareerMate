@@ -66,3 +66,43 @@
   font-size: 1.2rem;
   color: var(--cm-muted);
 }
+
+.controls {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.controls input,
+.controls select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+}
+
+.count {
+  margin-left: auto;
+  color: var(--cm-muted);
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.green {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.orange {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.red {
+  background: #fee2e2;
+  color: #991b1b;
+}
