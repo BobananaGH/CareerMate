@@ -28,6 +28,7 @@ class CVAdminSerializer(serializers.ModelSerializer):
         fields = ["id", "user_email", "file", "uploaded_at","extracted_text", "analysis"]
 
 class ArticleAdminSerializer(serializers.ModelSerializer):
+    author_email = serializers.EmailField(source="author.email", read_only=True)
     class Meta:
         model = Article
-        fields = ["id", "title", "content", "created_at"]
+        fields = ["id", "title", "content", "created_at", "author_email"]

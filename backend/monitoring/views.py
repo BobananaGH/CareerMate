@@ -63,7 +63,7 @@ class AdminArticleListAPIView(APIView):
 
         Article.objects.filter(id=article_id).delete()
 
-        articles = Article.objects.order_by("-created_at")[:50]
+        articles = Article.objects.select_related("author").order_by("-created_at")[:50]
         from .serializers import ArticleAdminSerializer
 
         return Response(ArticleAdminSerializer(articles, many=True).data)
