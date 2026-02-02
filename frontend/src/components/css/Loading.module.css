@@ -1,0 +1,63 @@
+:root {
+  /* Loading-specific tokens */
+  --loading-font-size: 2rem;
+  --loading-dot-size: 2.2rem;
+  --loading-font-weight: 500;
+
+  --loading-gap: 6px;
+  --loading-height: 60vh;
+
+  --blink-duration: 1.4s;
+}
+
+/* Container */
+.center {
+  height: var(--loading-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: var(--loading-font-size);
+  font-weight: var(--loading-font-weight);
+
+  /* USE GLOBAL BRAND COLOR */
+  color: var(--cm-primary);
+
+  gap: var(--loading-gap);
+}
+
+/* Dots wrapper */
+.dots {
+  display: inline-flex;
+}
+
+/* Individual dots */
+.dots span {
+  animation: blink var(--blink-duration) infinite both;
+  font-size: var(--loading-dot-size);
+  line-height: 1;
+}
+
+/* Staggered animation */
+.dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Blink animation */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}

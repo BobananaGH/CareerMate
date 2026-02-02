@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styles from "./css/Project.module.css";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function Analyze() {
   const [file, setFile] = useState(null);
@@ -21,6 +22,7 @@ export default function Analyze() {
   const handleUpload = async () => {
     if (!file) return;
 
+    window.scrollTo(0, 0);
     setUploading(true);
 
     const formData = new FormData();
@@ -38,11 +40,13 @@ export default function Analyze() {
     } catch (err) {
       console.error(err);
       alert("Error analyzing CV");
+      setFile(null);
     } finally {
       setUploading(false);
     }
   };
 
+  if (uploading) return <Loading text="Analyzing your resume" />;
   return (
     <div>
       {/* Main content */}
@@ -112,12 +116,6 @@ export default function Analyze() {
           >
             Analyze CV
           </button>
-          {uploading && (
-            <div className={styles.uploadProgress}>
-              <i className="fa-solid fa-brain"></i>
-              Analyzing your resume…
-            </div>
-          )}
         </section>
       </main>
     </div>

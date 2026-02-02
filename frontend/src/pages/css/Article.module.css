@@ -1,0 +1,142 @@
+.articlePage {
+  padding: 60px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.articlePage h1 {
+  margin-bottom: 30px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.content {
+  color: var(--cm-text-soft);
+  margin-bottom: 12px;
+}
+
+.date {
+  color: var(--cm-muted);
+  font-size: 1.3rem;
+}
+
+.loading,
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 200px;
+
+  text-align: center;
+  color: var(--cm-muted);
+  font-size: 1.6rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--cm-border);
+  border-radius: 8px;
+  padding: 25px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  transition: color 0.15s ease;
+}
+
+.card:hover h2 {
+  color: var(--cm-primary-hover);
+}
+
+.card:hover {
+  background: rgba(var(--cm-primary-rgb), 0.03);
+  transform: translateY(-2px);
+}
+
+.page {
+  max-width: 700px;
+  margin: auto;
+  padding: 60px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.page input,
+.page textarea {
+  padding: 14px;
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+  font-size: 1.6rem;
+  font-family: inherit;
+}
+
+.page input:focus,
+.page textarea:focus {
+  outline: none;
+  border-color: var(--cm-primary);
+}
+
+.resultPage {
+  padding: 60px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.resultBox {
+  background: #fff;
+  border: 1px solid var(--cm-border);
+  border-radius: 10px;
+  padding: 40px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.resultBox h1 {
+  margin-bottom: 8px;
+}
+
+.resultBox small {
+  color: var(--cm-muted);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.resultBox hr {
+  border: none;
+  border-top: 1px solid var(--cm-border);
+  margin: 20px 0;
+}
+
+.resultBox p {
+  color: var(--cm-text-soft);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
+}
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.headerRow h1 {
+  margin: 0;
+  line-height: 1;
+}
