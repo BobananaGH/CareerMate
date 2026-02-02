@@ -41,3 +41,11 @@
   display: flex;
   gap: 12px;
 }
+
+.editBtn {
+  margin-top: 16px;
+}
+
+.btn {
+  margin-top: 10px;
+}

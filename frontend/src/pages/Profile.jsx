@@ -7,12 +7,14 @@ export default function Profile({ user, setUser }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setFirstName(user.first_name || "");
     setLastName(user.last_name || "");
     setEmail(user.email || "");
+    setRole(user.role || "");
   }, [user]);
 
   const handleSave = async () => {
@@ -23,6 +25,7 @@ export default function Profile({ user, setUser }) {
         first_name: firstName,
         last_name: lastName,
         email,
+        role,
       });
 
       setUser(res.data);
@@ -59,7 +62,10 @@ export default function Profile({ user, setUser }) {
               <strong className={styles.role}>{user.role}</strong>
             </div>
 
-            <button className="btn btnPrimary" onClick={() => setEditing(true)}>
+            <button
+              className={`btn btnPrimary ${styles.editBtn}`}
+              onClick={() => setEditing(true)}
+            >
               Edit Profile
             </button>
           </>
@@ -86,9 +92,17 @@ export default function Profile({ user, setUser }) {
               <input value={email} onChange={(e) => setEmail(e.target.value)} />
             </label>
 
+            <label>
+              Role
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="candidate">Candidate</option>
+                <option value="recruiter">Recruiter</option>
+              </select>
+            </label>
+
             <div className={styles.actions}>
               <button
-                className="btn btnPrimary"
+                className={`btn btnPrimary ${styles.btn}`}
                 onClick={handleSave}
                 disabled={saving}
               >
@@ -96,7 +110,7 @@ export default function Profile({ user, setUser }) {
               </button>
 
               <button
-                className="btn btnOutline"
+                className={`btn btnOutline ${styles.btn}`}
                 onClick={() => setEditing(false)}
               >
                 Cancel
