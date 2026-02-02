@@ -13,9 +13,9 @@ export default function AdminMonitor({ user }) {
   const [expandedCvId, setExpandedCvId] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -31,42 +31,67 @@ export default function AdminMonitor({ user }) {
   );
 
   const fetchAdminData = async () => {
+    if (initialLoad) setLoading(true);
+
     try {
-      const [convRes, cvRes, usersRes, jobsRes, appsRes] = await Promise.all([
-        api.get("/admin/monitoring/conversations/"),
-        api.get("/admin/monitoring/cvs/"),
-        api.get("/users/admin/users/"),
-        api.get("/admin/monitoring/jobs/"),
-        api.get("/admin/monitoring/applications/"),
-      ]);
-
+      const convRes = await api.get("/admin/monitoring/conversations/");
       setConversations(convRes.data);
-      setCVs(cvRes.data);
-      setUsers(usersRes.data);
-      setJobs(jobsRes.data);
-      setApplications(appsRes.data);
-
-      setError(null);
     } catch {
-      setError("Failed to load admin monitoring data.");
-    } finally {
-      setLoading(false);
+      console.warn("Conversations failed");
     }
+
+    try {
+      const cvRes = await api.get("/admin/monitoring/cvs/");
+      setCVs(cvRes.data);
+    } catch {
+      console.warn("CVs failed");
+    }
+
+    try {
+      const usersRes = await api.get("/users/admin/users/");
+      setUsers(usersRes.data);
+    } catch {
+      console.warn("Users endpoint failed");
+    }
+
+    try {
+      const jobsRes = await api.get("/admin/monitoring/jobs/");
+      setJobs(jobsRes.data);
+    } catch {
+      console.warn("Jobs endpoint failed");
+    }
+
+    try {
+      const appsRes = await api.get("/admin/monitoring/applications/");
+      setApplications(appsRes.data);
+    } catch {
+      console.warn("Applications endpoint failed");
+    }
+
+    setInitialLoad(false);
+    setLoading(false);
   };
 
   useEffect(() => {
     if (!user?.is_staff) return;
 
+    let mounted = true;
+
     fetchAdminData();
 
-    const interval = setInterval(fetchAdminData, REFRESH_INTERVAL);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (mounted) fetchAdminData();
+    }, REFRESH_INTERVAL);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
   }, [user]);
 
   if (!user?.is_staff) return <Navigate to="/" replace />;
 
   if (loading) return <Loading text="Loading admin monitor" />;
-  if (error) return <p className={styles.muted}>{error}</p>;
 
   // ================= FILTERING =================
 
