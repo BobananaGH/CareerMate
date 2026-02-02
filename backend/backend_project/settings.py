@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'chat', 
     'monitoring',
     'resumes',
+    'articles',
     # Third-party apps
     'rest_framework',     
     "corsheaders",        
