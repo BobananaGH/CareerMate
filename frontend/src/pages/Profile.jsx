@@ -7,20 +7,14 @@ export default function Profile({ user, setUser }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-<<<<<<< HEAD
-=======
   const [role, setRole] = useState("");
->>>>>>> ui-ux
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setFirstName(user.first_name || "");
     setLastName(user.last_name || "");
     setEmail(user.email || "");
-<<<<<<< HEAD
-=======
     setRole(user.role || "");
->>>>>>> ui-ux
   }, [user]);
 
   const handleSave = async () => {
@@ -31,10 +25,7 @@ export default function Profile({ user, setUser }) {
         first_name: firstName,
         last_name: lastName,
         email,
-<<<<<<< HEAD
-=======
         role,
->>>>>>> ui-ux
       });
 
       setUser(res.data);
@@ -71,14 +62,10 @@ export default function Profile({ user, setUser }) {
               <strong className={styles.role}>{user.role}</strong>
             </div>
 
-<<<<<<< HEAD
-            <button className="btn btnPrimary" onClick={() => setEditing(true)}>
-=======
             <button
               className={`btn btnPrimary ${styles.editBtn}`}
               onClick={() => setEditing(true)}
             >
->>>>>>> ui-ux
               Edit Profile
             </button>
           </>
@@ -105,11 +92,6 @@ export default function Profile({ user, setUser }) {
               <input value={email} onChange={(e) => setEmail(e.target.value)} />
             </label>
 
-<<<<<<< HEAD
-            <div className={styles.actions}>
-              <button
-                className="btn btnPrimary"
-=======
             <label>
               Role
               <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -121,7 +103,6 @@ export default function Profile({ user, setUser }) {
             <div className={styles.actions}>
               <button
                 className={`btn btnPrimary ${styles.btn}`}
->>>>>>> ui-ux
                 onClick={handleSave}
                 disabled={saving}
               >
@@ -129,11 +110,7 @@ export default function Profile({ user, setUser }) {
               </button>
 
               <button
-<<<<<<< HEAD
-                className="btn btnOutline"
-=======
                 className={`btn btnOutline ${styles.btn}`}
->>>>>>> ui-ux
                 onClick={() => setEditing(false)}
               >
                 Cancel
