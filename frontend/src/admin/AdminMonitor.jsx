@@ -11,6 +11,8 @@ export default function AdminMonitor({ user }) {
   const [cvs, setCVs] = useState([]);
   const [expandedConvId, setExpandedConvId] = useState(null);
   const [expandedCvId, setExpandedCvId] = useState(null);
+  const [jobs, setJobs] = useState([]);
+  const [applications, setApplications] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,15 +32,20 @@ export default function AdminMonitor({ user }) {
 
   const fetchAdminData = async () => {
     try {
-      const [convRes, cvRes, usersRes] = await Promise.all([
+      const [convRes, cvRes, usersRes, jobsRes, appsRes] = await Promise.all([
         api.get("/admin/monitoring/conversations/"),
         api.get("/admin/monitoring/cvs/"),
         api.get("/users/admin/users/"),
+        api.get("/admin/monitoring/jobs/"),
+        api.get("/admin/monitoring/applications/"),
       ]);
 
       setConversations(convRes.data);
       setCVs(cvRes.data);
       setUsers(usersRes.data);
+      setJobs(jobsRes.data);
+      setApplications(appsRes.data);
+
       setError(null);
     } catch {
       setError("Failed to load admin monitoring data.");
@@ -270,6 +277,62 @@ export default function AdminMonitor({ user }) {
                 <td>{u.email}</td>
                 <td>{u.is_staff ? "Yes" : "No"}</td>
                 <td>{new Date(u.date_joined).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section className={styles.section}>
+        <h2>Jobs ({jobs.length})</h2>
+
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Recruiter</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {jobs.map((job) => (
+              <tr key={job.id}>
+                <td>{job.id}</td>
+                <td>{job.title}</td>
+                <td>{job.recruiter_email || "—"}</td>
+                <td>{new Date(job.created_at).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section className={styles.section}>
+        <h2>Applications ({applications.length})</h2>
+
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Job</th>
+              <th>Candidate</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {applications.map((a) => (
+              <tr key={a.id}>
+                <td>{a.id}</td>
+                <td>{a.job_title}</td>
+                <td>{a.candidate_email}</td>
+                <td>
+                  <span className={`${styles.badge} ${statusColor(a.status)}`}>
+                    {a.status}
+                  </span>
+                </td>
+                <td>{new Date(a.created_at).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
