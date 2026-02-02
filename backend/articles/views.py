@@ -11,7 +11,7 @@ class ArticleListAPIView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        articles = Article.objects.all().order_by("-created_at")
+        articles = Article.objects.select_related("author").all().order_by("-created_at")
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
 
@@ -22,8 +22,8 @@ class ArticleCreateAPIView(APIView):
     def post(self, request):
         serializer = ArticleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        serializer.save(author=request.user)
+        return Response(serializer.data, status=201)
 
 class ArticleDetailAPIView(APIView):
     permission_classes = [AllowAny]
