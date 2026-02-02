@@ -43,6 +43,14 @@ export default function Header({ user, onLogout, minimal = false }) {
               CareerChat
             </li>
           )}
+          {!minimal && (
+            <li
+              className={styles.headerNavItem}
+              onClick={() => navigate("/articles")}
+            >
+              Articles
+            </li>
+          )}
         </ul>
       </nav>
 
