@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from resumes.models import CV
 from chat.models import Conversation, Message
+from articles.models import Article
 
 class MessageAdminSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,3 +26,9 @@ class CVAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = CV
         fields = ["id", "user_email", "file", "uploaded_at","extracted_text", "analysis"]
+
+class ArticleAdminSerializer(serializers.ModelSerializer):
+    author_email = serializers.EmailField(source="author.email", read_only=True)
+    class Meta:
+        model = Article
+        fields = ["id", "title", "content", "created_at", "author_email"]

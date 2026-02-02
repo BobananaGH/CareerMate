@@ -6,6 +6,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from chat.models import Conversation
 from resumes.models import CV
+from articles.models import Article
 
 from .serializers import (
     ConversationAdminSerializer,
@@ -43,3 +44,26 @@ class AdminCVListAPIView(APIView):
         return Response(
             CVAdminSerializer(cvs, many=True).data
         )
+
+class AdminArticleListAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def get(self, request):
+        articles = Article.objects.order_by("-created_at")[:50]
+
+        from .serializers import ArticleAdminSerializer
+        return Response(ArticleAdminSerializer(articles, many=True).data)
+
+    def delete(self, request):
+        article_id = request.data.get("id")
+
+        if not article_id:
+            return Response({"error": "Article id required"}, status=400)
+
+        Article.objects.filter(id=article_id).delete()
+
+        articles = Article.objects.select_related("author").order_by("-created_at")[:50]
+        from .serializers import ArticleAdminSerializer
+
+        return Response(ArticleAdminSerializer(articles, many=True).data)
