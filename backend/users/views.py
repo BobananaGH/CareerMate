@@ -214,5 +214,22 @@ class PasswordResetCompleteAPIView(APIView):
         user.save()
 
         return Response({"message": "Password reset successful"}, status=200)
+    
+# ===================== Get Admin Users =====================
+class AdminUsersAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not request.user.is_staff:
+            return Response(status=403)
+
+        users = User.objects.all().values(
+            "id",
+            "email",
+            "is_staff",
+            "date_joined"
+        )
+
+        return Response(users)
 
  
