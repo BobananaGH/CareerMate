@@ -102,7 +102,7 @@ function App() {
           <Route
             path="/my-applications"
             element={
-              user?.role === "candidate" ? (
+              user?.role === "candidate" || user?.is_staff ? (
                 <MyApplications />
               ) : (
                 <Navigate to="/" />
@@ -113,7 +113,7 @@ function App() {
           <Route
             path="/recruiter/jobs"
             element={
-              user?.role === "recruiter" ? (
+              user?.role === "recruiter" || user?.is_staff ? (
                 <RecruiterJobs />
               ) : (
                 <Navigate to="/" />
@@ -124,7 +124,7 @@ function App() {
           <Route
             path="/recruiter/applications"
             element={
-              user?.role === "recruiter" ? (
+              user?.role === "recruiter" || user?.is_staff ? (
                 <RecruiterApplications />
               ) : (
                 <Navigate to="/" />

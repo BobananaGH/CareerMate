@@ -6,6 +6,9 @@ export default function Sidebar({ user }) {
   const location = useLocation();
 
   if (!user) return null;
+  const isCandidate = user.role === "candidate" || user.is_staff;
+  const isRecruiter = user.role === "recruiter" || user.is_staff;
+  const isAdmin = user.is_staff;
 
   const link = (path) =>
     `${styles.item} ${location.pathname === path ? styles.active : ""}`;
@@ -13,7 +16,7 @@ export default function Sidebar({ user }) {
   return (
     <aside className={styles.sidebar}>
       <nav className={styles.nav}>
-        {user.role === "candidate" && (
+        {isCandidate && (
           <button
             className={link("/my-applications")}
             onClick={() => navigate("/my-applications")}
@@ -23,7 +26,7 @@ export default function Sidebar({ user }) {
           </button>
         )}
 
-        {user.role === "recruiter" && (
+        {isRecruiter && (
           <>
             <button
               className={link("/recruiter/jobs")}
@@ -43,7 +46,7 @@ export default function Sidebar({ user }) {
           </>
         )}
 
-        {user.is_staff && (
+        {isAdmin && (
           <button
             className={link("/admin-monitor")}
             onClick={() => navigate("/admin-monitor")}
