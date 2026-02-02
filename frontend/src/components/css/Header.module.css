@@ -1,4 +1,5 @@
 .headerCheckHome {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -19,6 +20,7 @@
 
 .headerNavList {
   display: flex;
+  align-items: center;
   list-style: none;
   gap: 30px;
 }
@@ -26,6 +28,8 @@
 .headerNavItem {
   padding: 15px;
   color: var(--cm-text);
+  display: flex;
+  align-items: center;
 }
 
 .headerNavItem:hover {
@@ -42,9 +46,6 @@
 /* =========================
    DROPDOWN
    ========================= */
-.dropdown {
-  position: relative;
-}
 
 .dropdownContent {
   position: absolute;
@@ -155,4 +156,10 @@
 
 .dropdown button:hover {
   background: #f3f4f6;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cm-primary);
 }
