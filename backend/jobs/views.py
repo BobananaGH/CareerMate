@@ -17,7 +17,11 @@ class JobListCreateView(generics.ListCreateAPIView):
         return [IsAuthenticated()]
 
     def perform_create(self, serializer):
-        serializer.save(recruiter=self.request.user)
+        serializer.save(
+            recruiter=self.request.user,
+            is_active=True,
+            is_approved=True,
+    )
         
     def get_queryset(self):
         user = self.request.user
