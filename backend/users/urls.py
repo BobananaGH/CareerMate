@@ -20,4 +20,7 @@ urlpatterns = [
     path("password-reset/", PasswordResetRequestAPIView.as_view()),
     path("password-reset/confirm/", PasswordResetConfirmAPIView.as_view()),  
     path("password-reset/complete/", PasswordResetCompleteAPIView.as_view()),
+    
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+
 ]
