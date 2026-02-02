@@ -42,10 +42,13 @@ class LoginAPIView(APIView):
             "user": {
                 "id": user.id,
                 "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "role": user.role,
                 "is_staff": user.is_staff,
                 "is_superuser": user.is_superuser,
-                },
-
+            },
+            
             "tokens": {
                 "access": access_token,
                 "refresh": refresh_token,
@@ -67,17 +70,18 @@ class GoogleLoginAPIView(APIView):
             # Verify token
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
             email = idinfo.get("email")
-            full_name = idinfo.get("name", "")
-
+            first_name = idinfo.get("given_name", "")
+            last_name = idinfo.get("family_name", "")
             # Get or create user
             user, created = User.objects.get_or_create(
-                email=email,
-                defaults={
-                    "username": email.split("@")[0],
-                    "first_name": full_name.split(" ")[0] if full_name else "",
-                    "last_name": " ".join(full_name.split(" ")[1:]) if full_name else "",
-                    "role": "candidate",  # default role
+            email=email,
+            defaults={
+                "username": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "role": "candidate",
                 }
+
             )
 
             # Generate JWT tokens
@@ -87,11 +91,15 @@ class GoogleLoginAPIView(APIView):
 
             return Response({
                 "user": {
-                    "id": user.id,
-                    "email": user.email,
-                    "is_staff": user.is_staff,
-                    "is_superuser": user.is_superuser,
-                    },
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "role": user.role,
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser,
+                },
+
                 "tokens": {
                     "access": access_token,
                     "refresh": refresh_token,
@@ -100,6 +108,49 @@ class GoogleLoginAPIView(APIView):
 
         except ValueError:
             return Response({"error": "Invalid Google token"}, status=status.HTTP_400_BAD_REQUEST)
+
+# ===================== Register =====================
+class RegisterAPIView(APIView):
+    def post(self, request):
+        data = request.data
+
+        email = data.get("email")
+        password = data.get("password")
+        first_name = data.get("first_name", "")
+        last_name = data.get("last_name", "")
+        role = data.get("role", "candidate")
+
+        if not email or not password:
+            return Response({"error": "Email and password required"}, status=400)
+
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=400)
+
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            role=role,
+        )
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "role": user.role,
+            },
+            "tokens": {
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            }
+        }, status=201)
+
 
 # ===================== Protected Example =====================
 class ProtectedView(APIView):
@@ -117,11 +168,46 @@ class MeView(APIView):
 
     def get(self, request):
         user = request.user
+
         return Response({
             "id": user.id,
             "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "role": user.role,
             "is_staff": user.is_staff,
             "is_superuser": user.is_superuser,
+        })
+
+    def patch(self, request):
+        user = request.user
+
+        first_name = request.data.get("first_name")
+        last_name = request.data.get("last_name")
+        email = request.data.get("email")
+
+        # prevent duplicate emails
+        if email and User.objects.exclude(id=user.id).filter(email=email).exists():
+            return Response({"error": "Email already exists"}, status=400)
+
+        if first_name is not None:
+            user.first_name = first_name
+
+        if last_name is not None:
+            user.last_name = last_name
+
+        if email is not None:
+            user.email = email
+            user.username = email
+
+        user.save()
+
+        return Response({
+            "id": user.id,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "role": user.role,
         })
         
 # ===================== Request Password Reset =====================
