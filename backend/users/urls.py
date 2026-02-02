@@ -7,6 +7,7 @@ from .views import (
     PasswordResetRequestAPIView,
     PasswordResetConfirmAPIView,
     PasswordResetCompleteAPIView,
+    AdminUsersAPIView
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -22,5 +23,6 @@ urlpatterns = [
     path("password-reset/complete/", PasswordResetCompleteAPIView.as_view()),
     
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-
+    
+    path("admin/users/", AdminUsersAPIView.as_view(), name="admin-users"),
 ]
