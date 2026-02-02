@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import styles from "./css/Articles.module.css";
+import styles from "./css/Article.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchArticles();
@@ -33,7 +35,11 @@ export default function Articles() {
 
       <div className={styles.list}>
         {articles.map((article) => (
-          <article key={article.id} className={styles.card}>
+          <article
+            key={article.id}
+            className={styles.card}
+            onClick={() => navigate(`/articles/${article.id}`)}
+          >
             <h2>{article.title}</h2>
 
             <p className={styles.content}>{article.content}</p>
