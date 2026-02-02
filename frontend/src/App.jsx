@@ -18,7 +18,7 @@ import CareerChat from "./pages/CareerChat";
 import Profile from "./pages/Profile";
 import Articles from "./pages/Articles";
 import ArticleDetail from "./pages/ArticleDetail";
-import CreateArticle from "./pages/CreateArticle";
+import ArticleCreate from "./pages/ArticleCreate";
 
 import Layout from "./components/Layout";
 import AuthLayout from "./components/AuthLayout";
@@ -70,9 +70,14 @@ function App() {
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/result" element={<ResultPage />} />
           <Route path="/careerchat" element={<CareerChat user={user} />} />
-          <Route path="/articles" element={<Articles />} />
+          <Route path="/articles" element={<Articles user={user} />} />
           <Route path="/articles/:id" element={<ArticleDetail />} />
-          <Route path="/articles/create" element={<CreateArticle />} />
+          <Route
+            path="/articles/create"
+            element={
+              user ? <ArticleCreate user={user} /> : <Navigate to="/login" />
+            }
+          />
           <Route
             path="/profile"
             element={

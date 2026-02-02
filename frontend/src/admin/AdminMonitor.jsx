@@ -2,8 +2,9 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import api from "../api";
 import styles from "./AdminMonitor.module.css";
+import Loading from "../components/Loading";
 
-const REFRESH_INTERVAL = 10000; // 10s
+const REFRESH_INTERVAL = 30000; // 30s
 
 export default function AdminMonitor({ user }) {
   const [conversations, setConversations] = useState([]);
@@ -57,7 +58,7 @@ export default function AdminMonitor({ user }) {
 
   if (!user?.is_staff) return <Navigate to="/" replace />;
 
-  if (loading) return <p className={styles.muted}>Loading admin monitor…</p>;
+  if (loading) return <Loading text="Loading admin monitor" />;
   if (error) return <p className={styles.muted}>{error}</p>;
 
   // ================= FILTERING =================
@@ -124,7 +125,7 @@ export default function AdminMonitor({ user }) {
           <thead>
             <tr>
               <th>ID</th>
-              <th>User</th>
+              <th>Author</th>
               <th>Messages</th>
               <th>Updated</th>
               <th></th>
@@ -159,7 +160,7 @@ export default function AdminMonitor({ user }) {
                       <div className={styles.expandedBox}>
                         {conv.messages.map((m) => (
                           <div key={m.id}>
-                            <b>{m.role}</b>{" "}
+                            <b>{m.role === "user" ? conv.user_email : "AI"}</b>{" "}
                             <small>
                               {new Date(m.created_at).toLocaleString()}
                             </small>
@@ -185,7 +186,7 @@ export default function AdminMonitor({ user }) {
           <thead>
             <tr>
               <th>ID</th>
-              <th>User</th>
+              <th>Author</th>
               <th>Status</th>
               <th>Uploaded</th>
               <th></th>
@@ -246,6 +247,9 @@ export default function AdminMonitor({ user }) {
           </tbody>
         </table>
       </section>
+
+      {/* ================= USERS ================= */}
+
       <section className={styles.section}>
         <h2>Users ({sortedUsers.length})</h2>
 

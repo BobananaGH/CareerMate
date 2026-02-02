@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import styles from "./css/Article.module.css";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
-export default function Articles() {
+export default function Articles({ user }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -23,11 +24,23 @@ export default function Articles() {
     }
   };
 
-  if (loading) return <p className={styles.loading}>Loading articles…</p>;
+  if (loading) return <Loading text="Loading articles" />;
 
   return (
     <main className={styles.articlePage}>
-      <h1>Career Articles</h1>
+      <div className={styles.headerRow}>
+        <h1>Career Articles</h1>
+
+        {user && (
+          <button
+            type="button"
+            className="btn btnPrimary"
+            onClick={() => navigate("/articles/create")}
+          >
+            <i className="fa-solid fa-plus"></i>New Article
+          </button>
+        )}
+      </div>
 
       {articles.length === 0 && (
         <p className={styles.empty}>No articles available.</p>
@@ -42,9 +55,14 @@ export default function Articles() {
           >
             <h2>{article.title}</h2>
 
-            <p className={styles.content}>{article.content}</p>
+            <p className={styles.content}>
+              {article.content.length > 120
+                ? article.content.slice(0, 120) + "..."
+                : article.content}
+            </p>
 
             <small className={styles.date}>
+              {article.author_username || article.author_email} •{" "}
               {new Date(article.created_at).toLocaleDateString()}
             </small>
           </article>

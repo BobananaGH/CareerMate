@@ -3,7 +3,7 @@ import api from "../api";
 import styles from "./css/Article.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateArticle() {
+export default function ArticleCreate() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");

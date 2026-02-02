@@ -26,9 +26,15 @@
 
 .loading,
 .empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 200px;
+
   text-align: center;
-  margin-top: 100px;
   color: var(--cm-muted);
+  font-size: 1.6rem;
 }
 
 .card {
@@ -123,4 +129,14 @@
   line-height: 1.8;
   white-space: pre-wrap;
   margin-bottom: 30px;
+}
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.headerRow h1 {
+  margin: 0;
+  line-height: 1;
 }
