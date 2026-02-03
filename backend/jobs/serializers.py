@@ -31,13 +31,11 @@ class JobSerializer(serializers.ModelSerializer):
         ).exists()
 
 
-
 class ApplicationSerializer(serializers.ModelSerializer):
     candidate_email = serializers.EmailField(source="candidate.email", read_only=True)
 
     class Meta:
         model = Application
-        read_only_fields = ["job", "created_at", "candidate", "cv"]
         fields = [
             "id",
             "job",
@@ -46,26 +44,15 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         ]
+        read_only_fields = ["created_at", "candidate"]
 
     def validate(self, data):
         request = self.context["request"]
         user = request.user
-        job_id = request.data.get("job")
+        job = data.get("job")
 
-        if request.method == "POST":
-
-            if not job_id:
-                raise serializers.ValidationError("Job is required.")
-
-            try:
-                job = Job.objects.get(id=job_id)
-            except Job.DoesNotExist:
-                raise serializers.ValidationError("Invalid job.")
-
-            if Application.objects.filter(job=job, candidate=user).exists():
-                raise serializers.ValidationError("Already applied.")
-
-            data["job"] = job
+        if Application.objects.filter(job=job, candidate=user).exists():
+            raise serializers.ValidationError("Already applied.")
 
         return data
 

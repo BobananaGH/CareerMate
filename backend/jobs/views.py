@@ -42,13 +42,8 @@ class ApplyJobView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsCandidate]
 
     def perform_create(self, serializer):
-        job = serializer.validated_data["job"]
-
-        if Application.objects.filter(candidate=self.request.user, job=job).exists():
-            from rest_framework.exceptions import ValidationError
-            raise ValidationError("Already applied")
-
         serializer.save(candidate=self.request.user)
+
 
 
 class RecruiterApplicationsView(generics.ListAPIView):
