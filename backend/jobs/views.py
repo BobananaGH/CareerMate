@@ -39,8 +39,12 @@ class ApplyJobView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsCandidate]
 
+    def get_serializer_context(self):
+        return {"request": self.request}
+
     def perform_create(self, serializer):
         serializer.save(candidate=self.request.user)
+
 
 class RecruiterApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer

@@ -45,6 +45,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "created_at",
         ]
         read_only_fields = ["created_at", "candidate"]
+        extra_kwargs = {
+            "cv": {"required": False, "allow_null": True},
+        }
 
     def validate(self, data):
         request = self.context["request"]
@@ -55,4 +58,5 @@ class ApplicationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Already applied.")
 
         return data
+
 
