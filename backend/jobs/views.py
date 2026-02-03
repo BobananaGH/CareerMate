@@ -32,10 +32,13 @@ class JobListCreateView(generics.ListCreateAPIView):
 class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Job.objects.all()
-    
+
+    def get_queryset(self):
+        return Job.objects.all()
+
     def get_serializer_context(self):
         return {"request": self.request}
+
 
 class ApplyJobView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
