@@ -15,29 +15,22 @@ export default function JobDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const load = async () => {
+    setApplied(false);
+    setLoading(true);
+
+    const fetchJob = async () => {
       try {
-        const [jobRes, appsRes] = await Promise.all([
-          api.get(`/jobs/${id}/`),
-          api.get("/jobs/my-applications/"),
-        ]);
-
-        setJob(jobRes.data);
-
-        const alreadyApplied = appsRes.data.some(
-          (a) => String(a.job.id) === String(id),
-        );
-
-        setApplied(alreadyApplied);
-      } catch (err) {
-        console.error(err);
+        const res = await api.get(`/jobs/${id}/`);
+        setJob(res.data);
+        setApplied(Boolean(res.data.applied));
+      } catch {
         setJob(null);
       } finally {
         setLoading(false);
       }
     };
 
-    load();
+    fetchJob();
   }, [id]);
 
   if (loading) return <Loading />;
@@ -48,18 +41,12 @@ export default function JobDetail() {
     if (applying || applied) return;
 
     setApplying(true);
-    setError("");
 
     try {
       await api.post("/jobs/apply/", { job: id });
       setApplied(true);
-    } catch (err) {
-      // If already applied (unique constraint)
-      if (err.response?.status === 400 || err.response?.status === 409) {
-        setApplied(true);
-      } else {
-        setError("Something went wrong. Try again.");
-      }
+    } catch {
+      setApplied(true); // already applied anyway
     } finally {
       setApplying(false);
     }
