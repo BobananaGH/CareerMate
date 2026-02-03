@@ -24,29 +24,13 @@ class JobListCreateView(generics.ListCreateAPIView):
     )
         
     def get_queryset(self):
-        user = self.request.user
-
-        if user.is_superuser:
-            return Job.objects.all().order_by("-created_at")
-
-        if user.role == "recruiter":
-            return Job.objects.filter(recruiter=user).order_by("-created_at")
-
-        return Job.objects.filter(is_active=True, is_approved=True).order_by("-created_at")
+        return Job.objects.all().order_by("-created_at")
 
 
 class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-
-        if user.is_superuser or user.role == "recruiter":
-            return Job.objects.all()
-
-        return Job.objects.filter(is_active=True, is_approved=True)
-
+    queryset = Job.objects.all()
 
 
 class ApplyJobView(generics.CreateAPIView):
