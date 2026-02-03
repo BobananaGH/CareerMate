@@ -27,38 +27,20 @@ class JobListCreateView(generics.ListCreateAPIView):
         
     def get_queryset(self):
         return Job.objects.all().order_by("-created_at")
-    
-    def get_serializer_context(self):
-        return {"request": self.request}
+
+
 
 class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Job.objects.all()
-
-    def get_serializer_context(self):
-        return {"request": self.request}
-
+    queryset = Job.objects.all()
 
 class ApplyJobView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsCandidate]
 
-    def get_serializer_context(self):
-        return {"request": self.request}
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        serializer.save(candidate=request.user)
-
-        return Response(serializer.data, status=201)
-
-
-
+    def perform_create(self, serializer):
+        serializer.save(candidate=self.request.user)
 
 class RecruiterApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
