@@ -21,7 +21,7 @@ class JobSerializer(serializers.ModelSerializer):
 
     def get_applied(self, obj):
         request = self.context.get("request")
-
+        print("USER:", request.user) 
         if not request or request.user.is_anonymous:
             return False
 

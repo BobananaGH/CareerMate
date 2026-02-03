@@ -27,6 +27,9 @@ class JobListCreateView(generics.ListCreateAPIView):
         
     def get_queryset(self):
         return Job.objects.all().order_by("-created_at")
+    def get_serializer_context(self):
+        return {"request": self.request}
+
 
 
 
@@ -34,6 +37,12 @@ class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
     queryset = Job.objects.all()
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
+
 
 class ApplyJobView(generics.CreateAPIView):
     serializer_class = ApplicationSerializer
