@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'monitoring',
     'resumes',
     'articles',
+    'jobs',
     # Third-party apps
     'rest_framework',     
     "corsheaders",        

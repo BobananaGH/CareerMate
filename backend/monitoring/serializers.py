@@ -2,6 +2,8 @@ from rest_framework import serializers
 from resumes.models import CV
 from chat.models import Conversation, Message
 from articles.models import Article
+from jobs.models import Application
+
 
 class MessageAdminSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +34,17 @@ class ArticleAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ["id", "title", "content", "created_at", "author_email"]
+
+class ApplicationAdminSerializer(serializers.ModelSerializer):
+    candidate_email = serializers.EmailField(source="candidate.email", read_only=True)
+    job_title = serializers.CharField(source="job.title", read_only=True)
+
+    class Meta:
+        model = Application
+        fields = [
+            "id",
+            "job_title",
+            "candidate_email",
+            "status",
+            "created_at",
+        ]

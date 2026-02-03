@@ -7,10 +7,12 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from chat.models import Conversation
 from resumes.models import CV
 from articles.models import Article
+from jobs.models import Job, Application
+from jobs.serializers import JobSerializer
 
 from .serializers import (
     ConversationAdminSerializer,
-    CVAdminSerializer,
+    CVAdminSerializer, ApplicationAdminSerializer
 )
 from .permissions import IsAdminUserCustom
 
@@ -67,3 +69,24 @@ class AdminArticleListAPIView(APIView):
         from .serializers import ArticleAdminSerializer
 
         return Response(ArticleAdminSerializer(articles, many=True).data)
+
+class AdminJobListAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def get(self, request):
+        jobs = Job.objects.select_related("recruiter").order_by("-created_at")[:50]
+        return Response(JobSerializer(jobs, many=True).data)
+
+class AdminApplicationListAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def get(self, request):
+        applications = (
+            Application.objects
+            .select_related("job", "candidate")
+            .order_by("-created_at")[:50]
+        )
+        return Response(ApplicationAdminSerializer(applications, many=True).data)
+
