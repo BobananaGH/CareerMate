@@ -4,6 +4,7 @@ from .models import Job, Application
 
 class JobSerializer(serializers.ModelSerializer):
     recruiter_email = serializers.EmailField(source="recruiter.email", read_only=True)
+    applied = serializers.SerializerMethodField()
 
     class Meta:
         model = Job
@@ -15,7 +16,20 @@ class JobSerializer(serializers.ModelSerializer):
             "location",
             "created_at",
             "recruiter_email",
+            "applied",
         ]
+
+    def get_applied(self, obj):
+        request = self.context.get("request")
+
+        if not request or request.user.is_anonymous:
+            return False
+
+        return Application.objects.filter(
+            job=obj,
+            candidate=request.user
+        ).exists()
+
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
