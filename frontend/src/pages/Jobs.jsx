@@ -3,6 +3,7 @@ import api from "../api";
 import Loading from "../components/Loading";
 import styles from "./css/Jobs.module.css";
 import { useNavigate } from "react-router-dom";
+import Card from "../components/Card";
 
 export default function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -24,15 +25,14 @@ export default function Jobs() {
 
       <div className={styles.list}>
         {jobs.map((job) => (
-          <div
+          <Card
             key={job.id}
-            className={styles.card}
+            title={job.title}
+            footer={job.location}
             onClick={() => navigate(`/jobs/${job.id}`)}
           >
-            <h2>{job.title}</h2>
-            <p>{job.description.slice(0, 120)}...</p>
-            <small>{job.location}</small>
-          </div>
+            {job.description.slice(0, 120)}...
+          </Card>
         ))}
       </div>
     </main>

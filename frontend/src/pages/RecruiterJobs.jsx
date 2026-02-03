@@ -68,7 +68,7 @@ export default function RecruiterJobs() {
     }
   };
 
-  if (loading) return <Loading text="Loading my jobs..." />;
+  if (loading) return <Loading text="Loading my jobs" />;
 
   return (
     <main className={styles.page}>

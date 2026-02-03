@@ -28,7 +28,7 @@ export default function RecruiterApplications() {
     }
   };
 
-  if (loading) return <Loading text="Loading applications..." />;
+  if (loading) return <Loading text="Loading applications" />;
 
   if (!apps.length)
     return (

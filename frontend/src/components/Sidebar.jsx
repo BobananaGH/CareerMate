@@ -1,20 +1,41 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import styles from "./css/Sidebar.module.css";
 
 export default function Sidebar({ user }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
 
   if (!user) return null;
+
   const isCandidate = user.role === "candidate" || user.is_staff;
   const isRecruiter = user.role === "recruiter" || user.is_staff;
   const isAdmin = user.is_staff;
+
+  const AnimatedText = ({ text }) => (
+    <span className={styles.label}>
+      {text.split("").map((c, i) => (
+        <span key={i} style={{ "--i": i }}>
+          {c === " " ? "\u00A0" : c}
+        </span>
+      ))}
+    </span>
+  );
 
   const link = (path) =>
     `${styles.item} ${location.pathname === path ? styles.active : ""}`;
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
+      {/* toggle */}
+      <button
+        className={styles.toggle}
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <i className="fa-solid fa-chevron-left" />
+      </button>
+
       <nav className={styles.nav}>
         {isCandidate && (
           <button
@@ -22,7 +43,7 @@ export default function Sidebar({ user }) {
             onClick={() => navigate("/my-applications")}
           >
             <i className="fa-solid fa-briefcase" />
-            My Applications
+            <AnimatedText text="My Applications" />
           </button>
         )}
 
@@ -33,7 +54,7 @@ export default function Sidebar({ user }) {
               onClick={() => navigate("/recruiter/jobs")}
             >
               <i className="fa-solid fa-clipboard-list" />
-              My Jobs
+              <AnimatedText text="My Jobs" />
             </button>
 
             <button
@@ -41,7 +62,7 @@ export default function Sidebar({ user }) {
               onClick={() => navigate("/recruiter/applications")}
             >
               <i className="fa-solid fa-inbox" />
-              Applications
+              <AnimatedText text="Applications" />
             </button>
           </>
         )}
@@ -52,14 +73,13 @@ export default function Sidebar({ user }) {
             onClick={() => navigate("/admin-monitor")}
           >
             <i className="fa-solid fa-shield" />
-            Admin Monitor
+            <AnimatedText text="Admin Monitor" />
           </button>
         )}
       </nav>
 
-      {/* footer */}
       <footer className={styles.footer}>
-        <p>© {new Date().getFullYear()} CareerMate.</p>
+        {!collapsed && <p>© {new Date().getFullYear()} CareerMate.</p>}
       </footer>
     </aside>
   );
