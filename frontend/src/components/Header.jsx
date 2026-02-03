@@ -22,8 +22,11 @@ export default function Header({ user, onLogout, minimal = false }) {
     <header className={styles.headerCheckHome}>
       <nav className={styles.headerMainNav}>
         <ul className={styles.headerNavList}>
-          <li className={styles.headerNavItem} onClick={() => navigate("/")}>
-            Home
+          <li
+            className={`${styles.headerNavItem} ${styles.logo}`}
+            onClick={() => navigate("/")}
+          >
+            CareerMate
           </li>
 
           {!minimal && (
@@ -49,6 +52,14 @@ export default function Header({ user, onLogout, minimal = false }) {
               onClick={() => navigate("/articles")}
             >
               Articles
+            </li>
+          )}
+          {!minimal && (
+            <li
+              className={styles.headerNavItem}
+              onClick={() => navigate("/jobs")}
+            >
+              Jobs
             </li>
           )}
         </ul>

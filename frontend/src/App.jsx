@@ -19,6 +19,11 @@ import Profile from "./pages/Profile";
 import Articles from "./pages/Articles";
 import ArticleDetail from "./pages/ArticleDetail";
 import ArticleCreate from "./pages/ArticleCreate";
+import Jobs from "./pages/Jobs";
+import JobDetail from "./pages/JobDetail";
+import MyApplications from "./pages/MyApplications";
+import RecruiterApplications from "./pages/RecruiterApplications";
+import RecruiterJobs from "./pages/RecruiterJobs";
 
 import Layout from "./components/Layout";
 import AuthLayout from "./components/AuthLayout";
@@ -63,21 +68,22 @@ function App() {
     <Router>
       <Routes>
         {/* ===== ADMIN MONITOR ===== */}
-        <Route path="/admin-monitor" element={<AdminMonitor user={user} />} />
-        {/* ===== PAGES WITH LAYOUT ===== */}
         <Route element={<Layout user={user} onLogout={handleLogout} />}>
           <Route path="/" element={<Landing />} />
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/result" element={<ResultPage />} />
           <Route path="/careerchat" element={<CareerChat user={user} />} />
+
           <Route path="/articles" element={<Articles user={user} />} />
           <Route path="/articles/:id" element={<ArticleDetail />} />
+
           <Route
             path="/articles/create"
             element={
               user ? <ArticleCreate user={user} /> : <Navigate to="/login" />
             }
           />
+
           <Route
             path="/profile"
             element={
@@ -85,6 +91,54 @@ function App() {
                 <Profile user={user} setUser={setUser} />
               ) : (
                 <Navigate to="/login" />
+              )
+            }
+          />
+
+          {/* JOBS */}
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/jobs/:id" element={<JobDetail />} />
+
+          <Route
+            path="/my-applications"
+            element={
+              user?.role === "candidate" || user?.is_staff ? (
+                <MyApplications />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/recruiter/jobs"
+            element={
+              user?.role === "recruiter" || user?.is_staff ? (
+                <RecruiterJobs />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/recruiter/applications"
+            element={
+              user?.role === "recruiter" || user?.is_staff ? (
+                <RecruiterApplications />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+
+          <Route
+            path="/admin-monitor"
+            element={
+              user?.is_staff ? (
+                <AdminMonitor user={user} />
+              ) : (
+                <Navigate to="/" />
               )
             }
           />
@@ -105,7 +159,6 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
-
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

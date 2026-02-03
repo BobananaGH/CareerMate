@@ -1,0 +1,107 @@
+.page {
+  padding: 2.4rem;
+}
+
+/* Page title */
+
+.page h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* =====================
+   JOB GRID
+===================== */
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.6rem;
+}
+
+/* Card */
+
+.card {
+  background: white;
+  border: 1px solid var(--cm-border);
+  border-radius: 12px;
+  padding: 1.6rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+}
+
+.card h3 {
+  margin-bottom: 6px;
+  font-size: 1.6rem;
+}
+
+.card p {
+  font-size: 1.4rem;
+  color: var(--cm-text-soft);
+  margin-bottom: 6px;
+}
+
+.card small {
+  font-size: 1.3rem;
+  color: var(--cm-muted);
+}
+
+/* =====================
+   CREATE JOB FORM
+===================== */
+
+.form {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 560px;
+  margin-bottom: 3rem;
+}
+
+.form input,
+.form textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--cm-border);
+  border-radius: 6px;
+  font-size: 1.5rem;
+  font-family: inherit;
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--cm-primary);
+}
+
+/* =====================
+   APPLICATION ROWS
+===================== */
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--cm-border);
+}
+
+.row select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+  font-size: 1.4rem;
+}

@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+  margin-top: 70px;
+  height: calc(100vh - 70px);
+}
+
+.main {
+  flex: 1;
+  background: #fafafa;
+  overflow-y: auto;
+}

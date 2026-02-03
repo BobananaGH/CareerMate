@@ -1,20 +1,19 @@
 import Header from "./Header";
-import Footer from "./Footer";
-import { Outlet, useLocation } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
+import styles from "./css/Layout.module.css";
 
 function Layout({ user, onLogout }) {
-  const location = useLocation();
-  const hideFooter = location.pathname.startsWith("/careerchat");
-
   return (
     <>
       <Header user={user} onLogout={onLogout} />
 
-      <main>
-        <Outlet />
-      </main>
-
-      {!hideFooter && <Footer />}
+      <div className={styles.layout}>
+        <Sidebar user={user} />
+        <main className={styles.main}>
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 }
