@@ -5,8 +5,13 @@
 /* Page title */
 
 .page h1 {
-  font-size: 2rem;
   margin-bottom: 2rem;
+}
+
+.page h2 {
+  text-align: left;
+  font-size: 2.1rem;
+  margin: 0 0 8px 0;
 }
 
 /* =====================
@@ -19,42 +24,6 @@
   gap: 1.6rem;
 }
 
-/* Card */
-
-.card {
-  background: white;
-  border: 1px solid var(--cm-border);
-  border-radius: 12px;
-  padding: 1.6rem;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-}
-
-.card h3 {
-  margin-bottom: 6px;
-  font-size: 1.6rem;
-}
-
-.card p {
-  font-size: 1.4rem;
-  color: var(--cm-text-soft);
-  margin-bottom: 6px;
-}
-
-.card small {
-  font-size: 1.3rem;
-  color: var(--cm-muted);
-}
-
 /* =====================
    CREATE JOB FORM
 ===================== */
@@ -62,8 +31,6 @@
 .form {
   display: grid;
   gap: 1.4rem;
-  max-width: 560px;
-  margin-bottom: 3rem;
 }
 
 .form input,
@@ -91,17 +58,89 @@
 ===================== */
 
 .row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
 
   padding: 12px 6px;
   border-bottom: 1px solid var(--cm-border);
+  gap: 12px;
+}
+
+.row span {
+  word-break: break-word;
+  line-height: 32px;
 }
 
 .row select {
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-radius: 6px;
   border: 1px solid var(--cm-border);
   font-size: 1.4rem;
+
+  width: 100px;
+  justify-self: end;
+  line-height: 1.4;
+}
+
+.resultPage {
+  padding: 60px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.resultBox {
+  background: #fff;
+  border: 1px solid var(--cm-border);
+  border-radius: 10px;
+  padding: 40px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.resultBox h1 {
+  margin-bottom: 8px;
+}
+
+.resultBox small {
+  color: var(--cm-muted);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.resultBox hr {
+  border: none;
+  border-top: 1px solid var(--cm-border);
+  margin: 20px 0;
+}
+
+.resultBox p {
+  color: var(--cm-text-soft);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.headerRow h1 {
+  margin: 0;
+}
+
+.group {
+  background: #fff;
+  border: 1px solid var(--cm-border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 32px;
+}
+
+.email {
+  font-size: 1.3rem;
+  color: var(--cm-muted);
 }

@@ -4,41 +4,62 @@
   color: var(--cm-text);
 }
 
-.title {
-  font-size: 2.4rem;
-  font-weight: 700;
+/* HEADER */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
 }
 
-.section {
-  margin-top: 2.4rem;
+/* CONTROLS */
+
+.controls {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+  align-items: center;
 }
 
-.sectionLarge {
-  margin-top: 3.2rem;
+.controls input,
+.controls select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+  background: #fff;
+  min-width: 200px;
 }
+
+/* TABLE */
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.4rem;
+  font-size: 14px;
 }
 
-.table th,
-.table td {
-  border: 1px solid var(--cm-border);
-  padding: 8px;
-  vertical-align: top;
-}
-
+.table td,
 .table th {
-  background: rgba(var(--cm-primary-rgb), 0.05);
-  color: var(--cm-text-soft);
-  font-weight: 600;
+  border: 1px solid var(--cm-border);
+  padding: 10px;
+  vertical-align: middle;
 }
 
-.muted {
-  color: var(--cm-muted);
+.table tr:nth-child(even) {
+  background: #fafafa;
 }
+
+/* APPLICATION STATUS SELECT */
+
+.table select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--cm-border);
+  background: #fff;
+  min-width: 120px;
+}
+
+/* CONVERSATION EXPAND */
 
 .expandedRow {
   background: #fff;
@@ -53,42 +74,45 @@
 }
 
 .message {
-  margin-bottom: 1.2rem;
+  margin-bottom: 12px;
   white-space: pre-wrap;
 }
 
-.role {
-  font-weight: 700;
-  color: var(--cm-primary);
-}
+/* PAGINATION */
 
-.timestamp {
-  font-size: 1.2rem;
-  color: var(--cm-muted);
-}
-
-.controls {
+.pagination {
   display: flex;
-  gap: 1.2rem;
-  margin-bottom: 1.6rem;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.controls input,
-.controls select {
-  padding: 8px;
+.pagination button {
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--cm-border);
+  background: #fff;
+  cursor: pointer;
 }
 
-.count {
-  margin-left: auto;
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* SMALL TEXT */
+
+.muted {
   color: var(--cm-muted);
 }
+
+/* BADGES (optional future use) */
 
 .badge {
   padding: 4px 10px;
   border-radius: 12px;
-  font-size: 1.2rem;
+  font-size: 12px;
   font-weight: 600;
 }
 

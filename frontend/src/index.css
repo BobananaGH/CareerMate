@@ -33,6 +33,13 @@
   --cm-muted: #6b7280;
 
   /* =========================
+     DANGER / DESTRUCTIVE
+     ========================= */
+  --cm-danger: #dc2626;
+  --cm-danger-hover: #b91c1c;
+  --cm-danger-soft: rgba(220, 38, 38, 0.05);
+
+  /* =========================
      STATES
      ========================= */
   --cm-primary-rgb: 45, 111, 253;
@@ -184,4 +191,22 @@ code {
 
 .btnPrimary:disabled::after {
   background: rgba(0, 0, 0, 0);
+}
+
+/* Danger / destructive button */
+
+.btnDanger {
+  background: transparent;
+  border: 1px solid var(--cm-danger);
+  color: var(--cm-danger);
+}
+
+.btnDanger:hover {
+  background: var(--cm-danger-soft);
+  border-color: var(--cm-danger-hover);
+  color: var(--cm-danger-hover);
+}
+
+.btnDanger:active {
+  background: rgba(220, 38, 38, 0.15);
 }

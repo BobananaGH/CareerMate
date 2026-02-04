@@ -37,35 +37,6 @@
   font-size: 1.6rem;
 }
 
-.card {
-  background: #fff;
-  border: 1px solid var(--cm-border);
-  border-radius: 8px;
-  padding: 25px;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-.card h2 {
-  margin-bottom: 10px;
-  transition: color 0.15s ease;
-}
-
-.card:hover h2 {
-  color: var(--cm-primary-hover);
-}
-
-.card:hover {
-  background: rgba(var(--cm-primary-rgb), 0.03);
-  transform: translateY(-2px);
-}
-
 .page {
   max-width: 700px;
   margin: auto;

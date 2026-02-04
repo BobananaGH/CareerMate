@@ -3,6 +3,7 @@ import api from "../api";
 import styles from "./css/Article.module.css";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import Card from "../components/Card";
 
 export default function Articles({ user }) {
   const [articles, setArticles] = useState([]);
@@ -48,24 +49,18 @@ export default function Articles({ user }) {
 
       <div className={styles.list}>
         {articles.map((article) => (
-          <article
+          <Card
             key={article.id}
-            className={styles.card}
+            title={article.title}
+            footer={`${article.author_username || article.author_email} • ${new Date(
+              article.created_at,
+            ).toLocaleDateString()}`}
             onClick={() => navigate(`/articles/${article.id}`)}
           >
-            <h2>{article.title}</h2>
-
-            <p className={styles.content}>
-              {article.content.length > 120
-                ? article.content.slice(0, 120) + "..."
-                : article.content}
-            </p>
-
-            <small className={styles.date}>
-              {article.author_username || article.author_email} •{" "}
-              {new Date(article.created_at).toLocaleDateString()}
-            </small>
-          </article>
+            {article.content.length > 120
+              ? article.content.slice(0, 120) + "..."
+              : article.content}
+          </Card>
         ))}
       </div>
     </main>
