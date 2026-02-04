@@ -2,82 +2,125 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./css/Project.module.css";
 
-export default function Landing({ user, onLogout }) {
+export default function Landing({ user }) {
   const navigate = useNavigate();
+
+  const isLoggedIn = Boolean(user?.role || user?.is_staff);
 
   return (
     <>
-      <main className={styles.projectContent}>
-        <div className={styles.checkContainer}>
-          <section className={styles.checkSection}>
-            <h1 className={styles.checkLine}>
-              <span className={styles.lineTittle}>
-                Analyze Your CV with an AI
-              </span>
-            </h1>
+      {/* ================= HERO ================= */}
 
-            <p className={styles.checkDescription}>
-              <strong>An AI-Powered</strong> resume analysis to ensure your CV
-              is ready to perform and get interviews.
-            </p>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1>
+            Build Your Career With <span>CareerMate</span>
+          </h1>
 
+          <p>
+            AI-powered CV analysis, career coaching, and job matching —
+            everything you need to land your next opportunity.
+          </p>
+
+          <div className={styles.heroActions}>
             <button
               className="btn btnPrimary btnLg"
-              style={{ marginTop: "24px" }}
               onClick={() => navigate("/analyze")}
             >
-              Analyze Your CV
+              Analyze My CV
             </button>
-          </section>
-        </div>
-      </main>
 
-      {/* ================= SUGGEST SECTION ================= */}
-      <section className={styles.suggest}>
-        <div className={styles.suggestHeader}>Rewrite your resume with AI</div>
-        <p>
-          Get your resume rewritten by the world’s best AI engine (Claude) with
-          tailored prompts based on your resume and job description. Generate
-          summaries, skills, and remove buzzwords automatically.
-        </p>
-      </section>
-
-      {/* ================= THEME BLOCKS ================= */}
-      <div className={styles.theme}>
-        <div className={styles.themeChild1}></div>
-        <div className={styles.themeChild2}></div>
-        <div className={styles.themeChild3}></div>
-        <div className={styles.themeChild4}></div>
-      </div>
-
-      {/* ================= PRICING / AHREFS SECTION ================= */}
-      <section className={styles.ahrefsSection}>
-        <div className={styles.ahrefsContainer}>
-          <h2>
-            Sign up for <span>CareerMate</span>.
-            <br />
-            ############
-          </h2>
-
-          <div className={styles.ahrefsCards}>
-            <div className={styles.ahrefsCard}>
-              <h3>Starter</h3>
-              <p className={styles.price}>
-                $29<span>/mo</span>
-              </p>
-              <p>See what people search and spy on competitors.</p>
-              <button className="btn btnPrimary">Get started</button>
-            </div>
-
-            <div className={styles.ahrefsCard}>
-              <h3>Webmaster Tools 🚀</h3>
-              <p className={styles.price}>Free</p>
-              <p>Get data on your site.</p>
-              <button className="btn btnOutline">Get started</button>
-            </div>
+            <button
+              className="btn btnOutline btnLg"
+              onClick={() => navigate("/jobs")}
+            >
+              Browse Jobs
+            </button>
           </div>
         </div>
       </section>
+
+      {/* ================= FEATURES ================= */}
+
+      <section className={styles.features}>
+        <h2>All-in-one Career Platform</h2>
+
+        <div className={styles.featureGrid}>
+          <div className={styles.featureCard}>
+            <h3>📄 AI CV Analyzer</h3>
+            <p>
+              Upload your CV and receive instant feedback, skill extraction, and
+              improvement suggestions.
+            </p>
+          </div>
+
+          <div className={styles.featureCard}>
+            <h3>🤖 Career AI Coach</h3>
+            <p>
+              Chat with AI for career advice, personalized roadmaps, and mock
+              interview preparation.
+            </p>
+          </div>
+
+          <div className={styles.featureCard}>
+            <h3>💼 Job Marketplace</h3>
+            <p>
+              Discover jobs matched to your skills and apply directly to
+              recruiters.
+            </p>
+          </div>
+
+          <div className={styles.featureCard}>
+            <h3>📊 Recruiter Dashboard</h3>
+            <p>
+              Recruiters can post jobs, review candidates, and manage hiring
+              pipelines.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= HOW IT WORKS ================= */}
+
+      <section className={styles.steps}>
+        <h2>How It Works</h2>
+
+        <div className={styles.stepGrid}>
+          <div className={styles.step}>
+            <span>1</span>
+            <h4>Upload CV</h4>
+            <p>Upload your resume and let AI analyze your profile.</p>
+          </div>
+
+          <div className={styles.step}>
+            <span>2</span>
+            <h4>Get Insights</h4>
+            <p>Receive feedback, skill gaps, and career roadmap.</p>
+          </div>
+
+          <div className={styles.step}>
+            <span>3</span>
+            <h4>Apply Jobs</h4>
+            <p>Apply to relevant jobs and track application status.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CTA (ONLY WHEN LOGGED OUT) ================= */}
+
+      {!isLoggedIn && (
+        <section className={styles.cta}>
+          <h2>Start Building Your Career Today</h2>
+          <p>No credit card required.</p>
+
+          <button
+            className="btn btnPrimary btnLg"
+            onClick={() => navigate("/login")}
+          >
+            Get Started Free
+          </button>
+        </section>
+      )}
     </>
   );
 }

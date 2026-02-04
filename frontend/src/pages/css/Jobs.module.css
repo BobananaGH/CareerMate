@@ -5,13 +5,12 @@
 /* Page title */
 
 .page h1 {
-  font-size: 2rem;
   margin-bottom: 2rem;
 }
 
 .page h2 {
   text-align: left;
-  font-size: 1.6rem;
+  font-size: 2.1rem;
   margin: 0 0 8px 0;
 }
 
@@ -125,7 +124,7 @@
 .headerRow {
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
   margin-bottom: 2rem;
 }
 

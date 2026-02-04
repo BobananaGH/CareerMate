@@ -69,7 +69,7 @@ function App() {
       <Routes>
         {/* ===== ADMIN MONITOR ===== */}
         <Route element={<Layout user={user} onLogout={handleLogout} />}>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Landing user={user} />} />
           <Route path="/analyze" element={<Analyze />} />
           <Route path="/result" element={<ResultPage />} />
           <Route path="/careerchat" element={<CareerChat user={user} />} />
