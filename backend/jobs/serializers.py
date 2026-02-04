@@ -38,7 +38,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
     )
 
     candidate_email = serializers.EmailField(source="candidate.email", read_only=True)
-    candidate_name = serializers.CharField(source="candidate.get_full_name", read_only=True)
+    candidate_name = serializers.SerializerMethodField()
+
     job_title = serializers.CharField(source="job.title", read_only=True)
     job_location = serializers.CharField(source="job.location", read_only=True)
     job_id = serializers.IntegerField(source="job.id", read_only=True)
@@ -62,7 +63,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "cv": {"required": False, "allow_null": True},
         }
-
+    
     def validate(self, data):
         request = self.context["request"]
         user = request.user
@@ -72,5 +73,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Already applied.")
 
         return data
+
+    def get_candidate_name(self, obj):
+        user = obj.candidate
+        parts = [user.first_name, user.last_name]
+        name = " ".join(p for p in parts if p)
+        return name or user.email
 
 
