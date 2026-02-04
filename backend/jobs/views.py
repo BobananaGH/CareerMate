@@ -1,6 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.generics import UpdateAPIView
+from rest_framework.generics import UpdateAPIView, DestroyAPIView
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from django.shortcuts import get_object_or_404
@@ -53,7 +54,20 @@ class ApplyJobView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(candidate=self.request.user)
+        
+class UnapplyJobView(DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsCandidate]
 
+    def get_object(self):
+        job_id = self.kwargs["job_id"]
+
+        application = get_object_or_404(
+            Application,
+            job_id=job_id,
+            candidate=self.request.user
+        )
+
+        return application
 
 class RecruiterApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
