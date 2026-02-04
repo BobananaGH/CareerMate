@@ -25,6 +25,7 @@ export default function JobDetail() {
         setApplied(Boolean(res.data.applied));
       } catch {
         setJob(null);
+        setError("Failed to load job");
       } finally {
         setLoading(false);
       }
@@ -33,7 +34,7 @@ export default function JobDetail() {
     fetchJob();
   }, [id]);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading text="Loading job" />;
 
   if (!job) return <Loading text="Job not found" />;
 
@@ -41,12 +42,13 @@ export default function JobDetail() {
     if (applying || applied) return;
 
     setApplying(true);
+    setError("");
 
     try {
       await api.post("/jobs/apply/", { job: id });
       setApplied(true);
     } catch {
-      setApplied(true); // already applied anyway
+      setError("Failed to apply for this job");
     } finally {
       setApplying(false);
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import api from "../api";
 import styles from "./AdminMonitor.module.css";
@@ -30,7 +30,7 @@ export default function AdminMonitor({ user }) {
     [users],
   );
 
-  const fetchAdminData = async () => {
+  const fetchAdminData = useCallback(async () => {
     if (initialLoad) setLoading(true);
 
     try {
@@ -70,7 +70,7 @@ export default function AdminMonitor({ user }) {
 
     setInitialLoad(false);
     setLoading(false);
-  };
+  }, [initialLoad]);
 
   useEffect(() => {
     if (!user?.is_staff) return;
@@ -87,7 +87,7 @@ export default function AdminMonitor({ user }) {
       mounted = false;
       clearInterval(interval);
     };
-  }, [user]);
+  }, [user, fetchAdminData]);
 
   if (!user?.is_staff) return <Navigate to="/" replace />;
 
