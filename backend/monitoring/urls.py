@@ -5,6 +5,7 @@ from .views import (
     AdminArticleListAPIView,
     AdminApplicationListAPIView,
     AdminJobListAPIView,
+    AdminApplicationDetailAPIView
 )
 
 urlpatterns = [
@@ -13,4 +14,7 @@ urlpatterns = [
     path("articles/", AdminArticleListAPIView.as_view()),
     path("applications/", AdminApplicationListAPIView.as_view()),
     path("jobs/", AdminJobListAPIView.as_view()),
+    path("applications/<int:pk>/",AdminApplicationDetailAPIView.as_view(),
+),
+
 ]

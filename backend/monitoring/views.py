@@ -1,5 +1,6 @@
 # monitoring/views.py
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -15,7 +16,7 @@ from .serializers import (
     CVAdminSerializer, ApplicationAdminSerializer
 )
 from .permissions import IsAdminUserCustom
-
+from django.shortcuts import get_object_or_404
 
 class AdminConversationListAPIView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -76,7 +77,15 @@ class AdminJobListAPIView(APIView):
 
     def get(self, request):
         jobs = Job.objects.select_related("recruiter").order_by("-created_at")[:50]
-        return Response(JobSerializer(jobs, many=True).data)
+
+        return Response(
+            JobSerializer(
+                jobs,
+                many=True,
+                context={"request": request}   
+            ).data
+        )
+
 
 class AdminApplicationListAPIView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -90,3 +99,26 @@ class AdminApplicationListAPIView(APIView):
         )
         return Response(ApplicationAdminSerializer(applications, many=True).data)
 
+
+class AdminApplicationDetailAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def patch(self, request, pk):
+        application = get_object_or_404(Application, pk=pk)
+
+        new_status = request.data.get("status")
+
+        if not new_status:
+            return Response(
+                {"error": "status required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        application.status = new_status
+        application.save()
+
+        return Response(
+            ApplicationAdminSerializer(application).data,
+            status=status.HTTP_200_OK,
+        )
