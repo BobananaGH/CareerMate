@@ -77,6 +77,9 @@ class RecruiterApplicationsView(generics.ListAPIView):
         return Application.objects.filter(
             job__recruiter=self.request.user
         ).select_related("job", "candidate")
+        
+    def get_serializer_context(self):
+        return {"request": self.request}
 
 
 class ApplicationStatusUpdateView(UpdateAPIView):
@@ -92,7 +95,7 @@ class ApplicationStatusUpdateView(UpdateAPIView):
             raise PermissionDenied("Not your job")
 
         return app
-    
+ 
 class MyApplicationsView(generics.ListAPIView):
     serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated, IsCandidate]
@@ -101,4 +104,6 @@ class MyApplicationsView(generics.ListAPIView):
         return Application.objects.filter(
             candidate=self.request.user
         ).select_related("job")
-
+        
+    def get_serializer_context(self):
+        return {"request": self.request}
