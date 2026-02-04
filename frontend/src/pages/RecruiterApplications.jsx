@@ -62,7 +62,12 @@ export default function RecruiterApplications() {
 
           {applications.map((a) => (
             <div key={a.id} className={styles.row}>
-              <span>{a.candidate_email}</span>
+              <div>
+                <strong>{a.candidate_name || "Unnamed user"}</strong>
+                <div style={{ fontSize: "1.3rem", color: "var(--cm-muted)" }}>
+                  {a.candidate_email}
+                </div>
+              </div>
 
               <select
                 value={a.status}
