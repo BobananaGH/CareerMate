@@ -45,7 +45,6 @@ export default function RecruiterApplications() {
       </main>
     );
 
-  /* Group by job title */
   const grouped = apps.reduce((acc, app) => {
     acc[app.job_title] = acc[app.job_title] || [];
     acc[app.job_title].push(app);
@@ -58,15 +57,13 @@ export default function RecruiterApplications() {
 
       {Object.entries(grouped).map(([jobTitle, applications]) => (
         <section key={jobTitle} className={styles.group}>
-          <h2 style={{ marginBottom: 10 }}>{jobTitle}</h2>
+          <h2>{jobTitle}</h2>
 
           {applications.map((a) => (
             <div key={a.id} className={styles.row}>
               <div>
-                <strong>{a.candidate_name || "Unnamed user"}</strong>
-                <div style={{ fontSize: "1.3rem", color: "var(--cm-muted)" }}>
-                  {a.candidate_email}
-                </div>
+                <strong>{a.candidate_name}</strong>
+                <div className={styles.email}>{a.candidate_email}</div>
               </div>
 
               <select

@@ -140,3 +140,8 @@
   padding: 16px;
   margin-bottom: 32px;
 }
+
+.email {
+  font-size: 1.3rem;
+  color: var(--cm-muted);
+}
