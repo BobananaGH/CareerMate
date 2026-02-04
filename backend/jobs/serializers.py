@@ -38,6 +38,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
     )
 
     candidate_email = serializers.EmailField(source="candidate.email", read_only=True)
+    candidate_name = serializers.CharField(source="candidate.get_full_name", read_only=True)
     job_title = serializers.CharField(source="job.title", read_only=True)
     job_location = serializers.CharField(source="job.location", read_only=True)
     job_id = serializers.IntegerField(source="job.id", read_only=True)
@@ -51,6 +52,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             "job_title",
             "job_location",
             "candidate_email",
+            "candidate_name",
             "cv",      
             "status",
             "created_at",
