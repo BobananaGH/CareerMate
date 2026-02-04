@@ -3,7 +3,7 @@
   border: 1px solid var(--cm-border);
   border-radius: 8px;
 
-  padding: 25px;
+  padding: 35px;
 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 
@@ -21,10 +21,16 @@
 
 .card h2 {
   margin-bottom: 10px;
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   font-weight: 600;
   line-height: 1.3;
-  transition: color 0.15s ease;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
 }
 
 /* Body text */
@@ -32,9 +38,15 @@
 .body {
   color: var(--cm-text-soft);
   font-size: 1.5rem;
-  margin-bottom: 12px;
   line-height: 1.6;
   flex: 1;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
 }
 
 /* Footer (author / location / date) */

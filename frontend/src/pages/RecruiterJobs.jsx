@@ -88,51 +88,57 @@ export default function RecruiterJobs() {
 
       {/* CREATE MODE */}
       {showCreate && (
-        <form onSubmit={createJob} className={styles.form}>
-          <input
-            name="title"
-            placeholder="Job title"
-            value={form.title}
-            onChange={handleChange}
-            required
-          />
+        <div className={styles.group}>
+          <h2>Create Job</h2>
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            required
-          />
+          <form onSubmit={createJob} className={styles.form}>
+            <input
+              name="title"
+              placeholder="Job title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
 
-          <input
-            name="skills"
-            placeholder="Skills"
-            value={form.skills}
-            onChange={handleChange}
-          />
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={form.description}
+              onChange={handleChange}
+              required
+            />
 
-          <input
-            name="location"
-            placeholder="Location"
-            value={form.location}
-            onChange={handleChange}
-          />
+            <input
+              name="skills"
+              placeholder="Skills"
+              value={form.skills}
+              onChange={handleChange}
+            />
 
-          <div style={{ display: "flex", gap: 12 }}>
-            <button className="btn btnPrimary" disabled={creating}>
-              {creating ? "Creating..." : "Create"}
-            </button>
+            <input
+              name="location"
+              placeholder="Location"
+              value={form.location}
+              onChange={handleChange}
+            />
 
-            <button
-              type="button"
-              className="btn btnOutline"
-              onClick={() => setShowCreate(false)}
+            <div
+              style={{ display: "flex", gap: 12, justifyContent: "flex-end" }}
             >
-              Cancel
-            </button>
-          </div>
-        </form>
+              <button className="btn btnPrimary" disabled={creating}>
+                {creating ? "Creating..." : "Create"}
+              </button>
+
+              <button
+                type="button"
+                className="btn btnOutline"
+                onClick={() => setShowCreate(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       )}
 
       {/* LIST MODE */}

@@ -15,8 +15,8 @@ export default function JobDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setApplied(false);
     setLoading(true);
+    setError("");
 
     const fetchJob = async () => {
       try {
@@ -35,11 +35,10 @@ export default function JobDetail() {
   }, [id]);
 
   if (loading) return <Loading text="Loading job" />;
-
   if (!job) return <Loading text="Job not found" />;
 
   const apply = async () => {
-    if (applying || applied) return;
+    if (applying) return;
 
     setApplying(true);
     setError("");
@@ -49,6 +48,24 @@ export default function JobDetail() {
       setApplied(true);
     } catch {
       setError("Failed to apply for this job");
+    } finally {
+      setApplying(false);
+    }
+  };
+
+  const unapply = async () => {
+    if (applying) return;
+
+    if (!window.confirm("Withdraw application?")) return;
+
+    setApplying(true);
+    setError("");
+
+    try {
+      await api.delete(`/jobs/unapply/${id}/`);
+      setApplied(false);
+    } catch {
+      setError("Failed to unapply");
     } finally {
       setApplying(false);
     }
@@ -77,8 +94,12 @@ export default function JobDetail() {
           </button>
 
           {applied ? (
-            <button className="btn" disabled>
-              <i className="fa-solid fa-check" /> Applied
+            <button
+              className="btn btnDanger"
+              onClick={unapply}
+              disabled={applying}
+            >
+              {applying ? "Removing..." : "Unapply"}
             </button>
           ) : (
             <button

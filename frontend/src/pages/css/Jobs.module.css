@@ -9,6 +9,12 @@
   margin-bottom: 2rem;
 }
 
+.page h2 {
+  text-align: left;
+  font-size: 1.6rem;
+  margin: 0 0 8px 0;
+}
+
 /* =====================
    JOB GRID
 ===================== */
@@ -26,8 +32,6 @@
 .form {
   display: grid;
   gap: 1.4rem;
-  max-width: 560px;
-  margin-bottom: 3rem;
 }
 
 .form input,
@@ -55,19 +59,29 @@
 ===================== */
 
 .row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
 
   padding: 12px 6px;
   border-bottom: 1px solid var(--cm-border);
+  gap: 12px;
+}
+
+.row span {
+  word-break: break-word;
+  line-height: 32px;
 }
 
 .row select {
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-radius: 6px;
   border: 1px solid var(--cm-border);
   font-size: 1.4rem;
+
+  width: 100px;
+  justify-self: end;
+  line-height: 1.4;
 }
 
 .resultPage {
@@ -117,4 +131,12 @@
 
 .headerRow h1 {
   margin: 0;
+}
+
+.group {
+  background: #fff;
+  border: 1px solid var(--cm-border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 32px;
 }

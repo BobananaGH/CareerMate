@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 import Loading from "../components/Loading";
+import styles from "./css/Jobs.module.css";
 
 export default function RecruiterApplications() {
   const [apps, setApps] = useState([]);
@@ -8,21 +9,27 @@ export default function RecruiterApplications() {
   const [updatingId, setUpdatingId] = useState(null);
 
   useEffect(() => {
-    api
-      .get("/jobs/applications/")
-      .then((res) => setApps(res.data))
-      .catch(() => alert("Failed to load applications"))
-      .finally(() => setLoading(false));
+    fetchApps();
   }, []);
+
+  const fetchApps = async () => {
+    try {
+      const res = await api.get("/jobs/applications/");
+      setApps(res.data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateStatus = async (id, status) => {
     setUpdatingId(id);
+
     setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
 
     try {
       await api.patch(`/jobs/applications/${id}/`, { status });
     } catch {
-      alert("Failed to update status");
+      fetchApps();
     } finally {
       setUpdatingId(null);
     }
@@ -32,45 +39,45 @@ export default function RecruiterApplications() {
 
   if (!apps.length)
     return (
-      <main style={{ padding: 30 }}>
+      <main className={styles.page}>
         <h1>Applicants</h1>
         <p>No applications yet.</p>
       </main>
     );
 
+  /* Group by job title */
+  const grouped = apps.reduce((acc, app) => {
+    acc[app.job_title] = acc[app.job_title] || [];
+    acc[app.job_title].push(app);
+    return acc;
+  }, {});
+
   return (
-    <main style={{ padding: 30 }}>
+    <main className={styles.page}>
       <h1>Applicants</h1>
 
-      {apps.map((a) => (
-        <div
-          key={a.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
-            padding: "10px 0",
-            borderBottom: "1px solid #eee",
-          }}
-        >
-          <span style={{ minWidth: 220 }}>{a.candidate_email}</span>
+      {Object.entries(grouped).map(([jobTitle, applications]) => (
+        <section key={jobTitle} className={styles.group}>
+          <h2 style={{ marginBottom: 10 }}>{jobTitle}</h2>
 
-          <select
-            value={a.status}
-            disabled={updatingId === a.id}
-            onChange={(e) => updateStatus(a.id, e.target.value)}
-          >
-            <option value="applied">Applied</option>
-            <option value="shortlisted">Shortlisted</option>
-            <option value="interview">Interview</option>
-            <option value="offer">Offer</option>
-            <option value="rejected">Rejected</option>
-          </select>
+          {applications.map((a) => (
+            <div key={a.id} className={styles.row}>
+              <span>{a.candidate_email}</span>
 
-          {updatingId === a.id && (
-            <small style={{ opacity: 0.6 }}>Updating...</small>
-          )}
-        </div>
+              <select
+                value={a.status}
+                disabled={updatingId === a.id}
+                onChange={(e) => updateStatus(a.id, e.target.value)}
+              >
+                <option value="applied">Applied</option>
+                <option value="shortlisted">Shortlisted</option>
+                <option value="interview">Interview</option>
+                <option value="offer">Offer</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          ))}
+        </section>
       ))}
     </main>
   );
