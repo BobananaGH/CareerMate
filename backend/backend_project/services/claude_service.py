@@ -15,41 +15,13 @@ DO NOT repeat the CV.
 DO NOT summarize the CV.
 DO NOT paste any original resume text.
 
-You MUST return STRICTLY in this markdown format:
-
-## ATS Score
-<number>/100
-
-## Strengths
-- bullet
-- bullet
-
-## Weaknesses
-- bullet
-- bullet
-
-## Missing Skills
-- bullet
-- bullet
-
-## Formatting Advice
-- bullet
-- bullet
-
-Rules:
-- Be critical
-- Assume competitive job market
-- Focus on measurable impact, keywords, and role readiness
-- Use concise bullets only
-- No introductions
-- No closing remarks
-- ATS Score MUST be numeric between 0 and 100
-- Penalize vague experience
-- Penalize missing metrics
-- Penalize weak keywords
-- Score critically unless the resume is strong
-- Do not be Polite
-Resume:
+Heres my proposed Structure
+ATS Score 0-100
+Structure
+Content
+Skills
+Professionalism
+Good and Bad
 {text}
 """
 
@@ -128,31 +100,30 @@ ATS Evaluation:
 Resume:
 {cv_text}
 
-You MUST generate a detailed 6 month roadmap.
+You MUST generate a detailed 3 month roadmap.
 
 FORMAT EXACTLY:
 
 ## Month 1
 ### Technical Skills
-- bullet
 
 ### Soft Skills
-- bullet
 
 ### Projects
-- bullet
 
-Repeat until Month 6.
+### Your Opinion
+
+
+Repeat until Month 3.
 
 RULES:
 - NO introductions
 - NO summaries
-- MUST output Month 1 through Month 6
+- MUST output Month 1 to 3
 - Be aggressive and realistic
 - Assume junior job seeker
 - Focus on employability
 - Each month must be clearly different
-- If resume is weak, fill gaps logically
 - Do NOT be motivational
 - Do NOT use vague phrases
 """
