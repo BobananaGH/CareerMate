@@ -33,9 +33,11 @@ export default function Analyze() {
       const data = res.data;
 
       if (!data.success || !data.analysis) throw new Error("No result");
-
+      localStorage.setItem("cv_id", data.cv_id);
       localStorage.setItem("cv_result", data.analysis);
+      localStorage.setItem("cv_text", data.extracted_text);
       localStorage.setItem("cv_filename", file.name);
+      localStorage.setItem("cv_roadmap", data.roadmap);
       navigate("/result");
     } catch (err) {
       console.error(err);

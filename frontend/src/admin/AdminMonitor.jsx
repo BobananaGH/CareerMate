@@ -56,7 +56,7 @@ export default function AdminMonitor({ user }) {
 
     setInitialLoad(false);
     setLoading(false);
-  }, [initialLoad, user]);
+  }, [initialLoad, user, loading]);
 
   useEffect(() => {
     if (!user?.is_staff) return;

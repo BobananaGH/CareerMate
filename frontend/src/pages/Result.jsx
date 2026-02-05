@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import styles from "./css/Project.module.css";
 
 export default function ResultPage() {
   const navigate = useNavigate();
 
   const result = localStorage.getItem("cv_result");
+  const roadmap = localStorage.getItem("cv_roadmap");
   const filename = localStorage.getItem("cv_filename");
 
   return (
@@ -13,6 +15,7 @@ export default function ResultPage() {
       <section className={styles.resultBox}>
         <header className={styles.resultHeader}>
           <h1>Resume Analysis Result</h1>
+
           <p className={styles.fileName}>
             <strong>File:</strong> {filename || "No file uploaded"}
           </p>
@@ -20,23 +23,39 @@ export default function ResultPage() {
 
         <hr />
 
+        {/* ATS RESULT */}
+
         <div className={styles.resultContent}>
+          <h2>ATS Analysis</h2>
+
           {result ? (
-            <p className={styles.analysisText}>{result}</p>
+            <ReactMarkdown>{result}</ReactMarkdown>
           ) : (
             <p className={styles.emptyState}>
-              No analysis data found. Please upload and analyze a resume first.
+              No analysis data found. Please upload a resume first.
             </p>
           )}
         </div>
 
+        {/* ROADMAP */}
+
+        {roadmap && (
+          <div className={styles.aiResults}>
+            <h2>Your Learning Roadmap</h2>
+
+            <ReactMarkdown>{roadmap}</ReactMarkdown>
+          </div>
+        )}
+
+        {/* ACTIONS */}
+
         <div className={styles.resultActions}>
           <button
             type="button"
-            className="btn btnPrimary"
+            className="btn btnOutline"
             onClick={() => navigate("/analyze")}
           >
-            Back to Resume Upload
+            <i className="fa-solid fa-arrow-left" /> Back to Resume Upload
           </button>
         </div>
       </section>
