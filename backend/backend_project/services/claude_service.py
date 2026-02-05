@@ -2,80 +2,17 @@
 import anthropic
 from django.conf import settings
 
-CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
+CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 
 client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
 
 
 def analyze_cv(text: str) -> str:
     prompt = f"""
-You are an ATS resume scoring engine.
-
-Start from 100 points.
-
-Score using 4 categories:
-
-Structure (25 points)
-Content (35 points)
-Skills (25 points)
-Professionalism (15 points)
-
-Deduct points:
-
-Structure:
-- Missing job titles: -10
-- Missing dates: -5
-- Poor section layout: -5
-
-Content:
-- No quantified achievements: -15
-- Vague experience: -10
-- No clear responsibilities: -10
-
-Skills:
-- Weak or missing skills section: -15
-- Low keyword density: -10
-
-Professionalism:
-- Placeholder data: -10
-- Informal language: -5
-
-Rules:
-- Stack deductions.
-- If resume contains fake or placeholder text, final score MUST be under 45.
-- If no metrics exist, Content score cannot exceed 15/35.
-- Typical weak resumes should land 30–50.
-- Average resumes 50–65.
-- Strong resumes 65–80.
-- Exceptional resumes 80+.
-
-Return EXACT format:
-
-## ATS Score
-<number>/100
-
-## Structure
-- bullets
-
-## Content
-- bullets
-
-## Skills
-- bullets
-
-## Professionalism
-- bullets
-
-## Good
-- bullets
-
-## Bad
-- bullets
-
-Resume:
+You are an ATS resume expert.
+Analyze the CV below Score from 1-100 (ATS) and give professional feedback.
 {text}
 """
-
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
@@ -163,7 +100,7 @@ FORMAT EXACTLY:
 
 ### Projects
 
-### Your Opinion
+### Conclusion
 
 
 Repeat until Month 3.
@@ -192,13 +129,3 @@ RULES:
 
     return "".join(c.text for c in response.content if hasattr(c, "text"))
 
-
-import anthropic
-from django.conf import settings
-
-client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
-
-models = client.models.list()
-
-for m in models.data:
-    print(m.id)
