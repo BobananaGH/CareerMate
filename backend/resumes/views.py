@@ -40,5 +40,7 @@ class CVAnalyzeAPIView(APIView):
             "success": True,
             "cv_id": cv.id,
             "anonymous": user is None,
-            "analysis": analysis
+            "analysis": analysis,
+            "extracted_text": cv_text
         })
+

@@ -13,11 +13,26 @@ def analyze_cv(text: str) -> str:
     """
     prompt = f"""
 You are an ATS resume expert.
-Analyze the CV below and give professional feedback.
+
+Respond in Markdown.
+Use headings and bullet points.
+
+Return:
+
+## ATS Score (/100)
+
+## Strengths
+
+## Weaknesses
+
+## Missing Skills
+
+## Formatting Advice
 
 CV:
 {text}
 """
+
     response = client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=1500,
@@ -77,7 +92,17 @@ def generate_roadmap(cv_text: str) -> str:
     prompt = f"""
 You are a career coach.
 
-Based on this CV, generate a 3-month learning roadmap:
+Respond in Markdown.
+Use headings and bullet points.
+
+Generate a 3-month learning roadmap with:
+
+## Month 1
+## Month 2
+## Month 3
+
+Include:
+
 - Technical skills
 - Soft skills
 - Projects
@@ -86,6 +111,7 @@ Based on this CV, generate a 3-month learning roadmap:
 CV:
 {cv_text}
 """
+
     response = client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=800,
