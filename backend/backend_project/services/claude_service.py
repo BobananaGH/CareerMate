@@ -74,53 +74,22 @@ def career_chat_with_context(messages: list[dict]) -> str:
 
 def generate_roadmap(cv_text: str, ats_result: str) -> str:
     prompt = f"""
-You are a strict career roadmap generator.
-
-You are given:
-1. Resume
-2. ATS Evaluation
-
-Use BOTH to build roadmap.
-Target missing skills aggressively.
-
-ATS Evaluation:
-{ats_result}
+Based on this resume and ATS feedback, generate a 3-month improvement roadmap for a junior candidate.
 
 Resume:
 {cv_text}
 
-You MUST generate a detailed 3 month roadmap.
+ATS:
+{ats_result}
 
-FORMAT EXACTLY:
-
-## Month 1
-### Technical Skills
-
-### Soft Skills
-
-### Projects
-
-### Conclusion
-
-
-Repeat until Month 3.
-
-RULES:
-- NO introductions
-- NO summaries
-- MUST output Month 1 to 3
-- Be aggressive and realistic
-- Assume junior job seeker
-- Focus on employability
-- Each month must be clearly different
-- Do NOT be motivational
-- Do NOT use vague phrases
+Each month: technical skills, soft skills, projects.
+Concrete steps only.
 """
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=1600,
-        temperature=0.2,
+        max_tokens=900,
+        temperature=0.3,
         messages=[{"role": "user", "content": prompt}],
     )
 
