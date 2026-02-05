@@ -29,9 +29,7 @@ export default function ResultPage() {
           <h2>ATS Analysis</h2>
 
           {result ? (
-            <div className={styles.analysisText}>
-              <ReactMarkdown>{result}</ReactMarkdown>
-            </div>
+            <ReactMarkdown>{result}</ReactMarkdown>
           ) : (
             <p className={styles.emptyState}>
               No analysis data found. Please upload a resume first.
@@ -45,9 +43,7 @@ export default function ResultPage() {
           <div className={styles.aiResults}>
             <h2>Your Learning Roadmap</h2>
 
-            <div className={styles.analysisText}>
-              <ReactMarkdown>{roadmap}</ReactMarkdown>
-            </div>
+            <ReactMarkdown>{roadmap}</ReactMarkdown>
           </div>
         )}
 
@@ -59,7 +55,7 @@ export default function ResultPage() {
             className="btn btnOutline"
             onClick={() => navigate("/analyze")}
           >
-            ← Back to Resume Upload
+            <i className="fa-solid fa-arrow-left" /> Back to Resume Upload
           </button>
         </div>
       </section>
