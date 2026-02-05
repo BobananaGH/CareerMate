@@ -72,3 +72,28 @@ def career_chat_with_context(messages: list[dict]) -> str:
         raise ValueError("Empty response from AI")
 
     return response.content[0].text
+
+def generate_roadmap(cv_text: str) -> str:
+    prompt = f"""
+You are a career coach.
+
+Based on this CV, generate a 3-month learning roadmap:
+- Technical skills
+- Soft skills
+- Projects
+- Certifications (if any)
+
+CV:
+{cv_text}
+"""
+    response = client.messages.create(
+        model=CLAUDE_MODEL,
+        max_tokens=800,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    if not response.content:
+        raise ValueError("Empty response from AI")
+
+    return response.content[0].text
+
