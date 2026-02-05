@@ -2,7 +2,7 @@
 import anthropic
 from django.conf import settings
 
-CLAUDE_MODEL = "claude-3-haiku-20240307"
+CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
 
 client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
 
@@ -193,3 +193,12 @@ RULES:
     return "".join(c.text for c in response.content if hasattr(c, "text"))
 
 
+import anthropic
+from django.conf import settings
+
+client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
+
+models = client.models.list()
+
+for m in models.data:
+    print(m.id)
