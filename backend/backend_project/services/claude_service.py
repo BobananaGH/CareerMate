@@ -8,26 +8,33 @@ client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
 
 
 def analyze_cv(text: str) -> str:
-    """
-    Analyze a CV and return ATS-style professional feedback.
-    """
     prompt = f"""
 You are an ATS resume expert.
 
-Respond in Markdown.
-Use headings and bullet points.
+Respond in clean Markdown.
 
-Return:
+Rules:
+- Do NOT insert blank lines between bullets
+- Use compact lists
+- Do NOT add empty paragraphs
+- Keep spacing tight
+- Avoid conversational text
 
-## ATS Score (/100)
+Format exactly:
+
+## ATS Score
 
 ## Strengths
+- bullet
 
 ## Weaknesses
+- bullet
 
 ## Missing Skills
+- bullet
 
 ## Formatting Advice
+- bullet
 
 CV:
 {text}
@@ -90,23 +97,48 @@ def career_chat_with_context(messages: list[dict]) -> str:
 
 def generate_roadmap(cv_text: str) -> str:
     prompt = f"""
-You are a career coach.
+You are a professional career coach.
 
-Respond in Markdown.
-Use headings and bullet points.
+Respond in clean Markdown.
 
-Generate a 3-month learning roadmap with:
+Rules:
+- Do NOT insert blank lines between bullets
+- Use compact lists
+- Do NOT add empty paragraphs
+- No introductions
+- Start directly with headings
+
+Format exactly:
 
 ## Month 1
+### Technical Skills
+- bullet
+
+### Soft Skills
+- bullet
+
+### Projects
+- bullet
+
 ## Month 2
+### Technical Skills
+- bullet
+
+### Soft Skills
+- bullet
+
+### Projects
+- bullet
+
 ## Month 3
+### Technical Skills
+- bullet
 
-Include:
+### Soft Skills
+- bullet
 
-- Technical skills
-- Soft skills
-- Projects
-- Certifications (if any)
+### Projects
+- bullet
 
 CV:
 {cv_text}
@@ -122,4 +154,3 @@ CV:
         raise ValueError("Empty response from AI")
 
     return response.content[0].text
-
