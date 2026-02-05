@@ -37,6 +37,7 @@ export default function Analyze() {
       localStorage.setItem("cv_result", data.analysis);
       localStorage.setItem("cv_text", data.extracted_text);
       localStorage.setItem("cv_filename", file.name);
+      localStorage.setItem("cv_roadmap", data.roadmap);
       navigate("/result");
     } catch (err) {
       console.error(err);
