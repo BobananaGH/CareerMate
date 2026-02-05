@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 
 from .models import Conversation, Message
 from .serializers import SendMessageSerializer, MessageSerializer, ConversationSerializer
-from backend_project.services.claude_service import career_chat_with_context
+from backend_project.services.claude_service import career_chat_with_context, generate_roadmap
 
 
 class SendMessageAPIView(APIView):
@@ -102,3 +102,23 @@ class ConversationDetailAPIView(APIView):
 
         serializer = ConversationSerializer(conversation)
         return Response(serializer.data)
+
+class RoadmapAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        cv_text = request.data.get("cv_text")
+
+        if not cv_text:
+            return Response({"error": "cv_text required"}, status=400)
+
+        try:
+            roadmap = generate_roadmap(cv_text)
+        except Exception as e:
+            return Response(
+                {"error": "AI service failed"},
+                status=500
+            )
+
+        return Response({"roadmap": roadmap})

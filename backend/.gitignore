@@ -6,6 +6,6 @@ venv/
 .env
 *.log
 .env
-
+cvs/
 # Ignore frontend folder completely in backend branch
 frontend/
