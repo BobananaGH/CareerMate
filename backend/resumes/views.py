@@ -36,7 +36,7 @@ class CVAnalyzeAPIView(APIView):
         try:
             cv_text = extract_text(file)
             analysis = analyze_cv(cv_text)
-            roadmap = generate_roadmap(cv_text)
+            roadmap = generate_roadmap(cv_text, analysis)
 
             cv.extracted_text = cv_text
             cv.analysis = analysis

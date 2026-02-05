@@ -48,7 +48,7 @@ Rules:
 - Penalize missing metrics
 - Penalize weak keywords
 - Score critically unless the resume is strong
-
+- Do not be Polite
 Resume:
 {text}
 """
@@ -111,15 +111,26 @@ def career_chat_with_context(messages: list[dict]) -> str:
     return "".join(c.text for c in response.content if hasattr(c, "text"))
 
 
-def generate_roadmap(cv_text: str) -> str:
+def generate_roadmap(cv_text: str, ats_result: str) -> str:
     prompt = f"""
-You are a professional career roadmap generator.
+You are a strict career roadmap generator.
 
-DO NOT repeat the CV.
+You are given:
+1. Resume
+2. ATS Evaluation
 
-Create a 6 month roadmap.
+Use BOTH to build roadmap.
+Target missing skills aggressively.
 
-Format EXACTLY:
+ATS Evaluation:
+{ats_result}
+
+Resume:
+{cv_text}
+
+You MUST generate a detailed 6 month roadmap.
+
+FORMAT EXACTLY:
 
 ## Month 1
 ### Technical Skills
@@ -131,26 +142,25 @@ Format EXACTLY:
 ### Projects
 - bullet
 
-## Month 2
-...
+Repeat until Month 6.
 
-Continue until Month 6.
-
-Rules:
-- No introductions
-- No summaries
-- Be specific
-- Tailor to missing skills
-- Assume job-seeking candidate
-- Each month must differ or at least have a large difference
-Resume:
-{cv_text}
+RULES:
+- NO introductions
+- NO summaries
+- MUST output Month 1 through Month 6
+- Be aggressive and realistic
+- Assume junior job seeker
+- Focus on employability
+- Each month must be clearly different
+- If resume is weak, fill gaps logically
+- Do NOT be motivational
+- Do NOT use vague phrases
 """
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=1200,
-        temperature=0.4,
+        max_tokens=1600,
+        temperature=0.2,
         messages=[{"role": "user", "content": prompt}],
     )
 
@@ -158,4 +168,5 @@ Resume:
         raise ValueError("Empty response from AI")
 
     return "".join(c.text for c in response.content if hasattr(c, "text"))
+
 
