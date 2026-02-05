@@ -9,47 +9,62 @@ client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
 
 def analyze_cv(text: str) -> str:
     prompt = f"""
-You are an ATS resume expert.
+You are an automated ATS resume scoring engine.
 
-Respond in clean Markdown.
+DO NOT repeat the CV.
+DO NOT summarize the CV.
+DO NOT paste any original resume text.
 
-Rules:
-- Do NOT insert blank lines between bullets
-- Use compact lists
-- Do NOT add empty paragraphs
-- Keep spacing tight
-- Avoid conversational text
-
-Format exactly:
+You MUST return STRICTLY in this markdown format:
 
 ## ATS Score
+<number>/100
 
 ## Strengths
+- bullet
 - bullet
 
 ## Weaknesses
 - bullet
+- bullet
 
 ## Missing Skills
+- bullet
 - bullet
 
 ## Formatting Advice
 - bullet
+- bullet
 
-CV:
+Rules:
+- Be critical
+- Assume competitive job market
+- Focus on measurable impact, keywords, and role readiness
+- Use concise bullets only
+- No introductions
+- No closing remarks
+- ATS Score MUST be numeric between 0 and 100
+- Penalize vague experience
+- Penalize missing metrics
+- Penalize weak keywords
+- Score critically unless the resume is strong
+
+Resume:
 {text}
 """
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=1500,
+        max_tokens=1200,
+        temperature=0.3,
         messages=[{"role": "user", "content": prompt}],
     )
 
     if not response.content:
         raise ValueError("Empty response from AI")
 
-    return response.content[0].text
+    return "".join(c.text for c in response.content if hasattr(c, "text"))
+
 
 
 def career_chat(message: str) -> str:
@@ -72,7 +87,7 @@ User question:
     if not response.content:
         raise ValueError("Empty response from AI")
 
-    return response.content[0].text
+    return "".join(c.text for c in response.content if hasattr(c, "text"))
 
 def career_chat_with_context(messages: list[dict]) -> str:
     """
@@ -93,22 +108,18 @@ def career_chat_with_context(messages: list[dict]) -> str:
     if not response.content:
         raise ValueError("Empty response from AI")
 
-    return response.content[0].text
+    return "".join(c.text for c in response.content if hasattr(c, "text"))
+
 
 def generate_roadmap(cv_text: str) -> str:
     prompt = f"""
-You are a professional career coach.
+You are a professional career roadmap generator.
 
-Respond in clean Markdown.
+DO NOT repeat the CV.
 
-Rules:
-- Do NOT insert blank lines between bullets
-- Use compact lists
-- Do NOT add empty paragraphs
-- No introductions
-- Start directly with headings
+Create a 6 month roadmap.
 
-Format exactly:
+Format EXACTLY:
 
 ## Month 1
 ### Technical Skills
@@ -121,36 +132,30 @@ Format exactly:
 - bullet
 
 ## Month 2
-### Technical Skills
-- bullet
+...
 
-### Soft Skills
-- bullet
+Continue until Month 6.
 
-### Projects
-- bullet
-
-## Month 3
-### Technical Skills
-- bullet
-
-### Soft Skills
-- bullet
-
-### Projects
-- bullet
-
-CV:
+Rules:
+- No introductions
+- No summaries
+- Be specific
+- Tailor to missing skills
+- Assume job-seeking candidate
+- Each month must differ or at least have a large difference
+Resume:
 {cv_text}
 """
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=800,
+        max_tokens=1200,
+        temperature=0.4,
         messages=[{"role": "user", "content": prompt}],
     )
 
     if not response.content:
         raise ValueError("Empty response from AI")
 
-    return response.content[0].text
+    return "".join(c.text for c in response.content if hasattr(c, "text"))
+
