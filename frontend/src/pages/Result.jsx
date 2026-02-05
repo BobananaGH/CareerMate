@@ -1,36 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import styles from "./css/Project.module.css";
-import api from "../api";
 
 export default function ResultPage() {
   const navigate = useNavigate();
 
   const result = localStorage.getItem("cv_result");
+  const roadmap = localStorage.getItem("cv_roadmap");
   const filename = localStorage.getItem("cv_filename");
-  const cvText = localStorage.getItem("cv_text");
-
-  const [roadmap, setRoadmap] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const generateRoadmap = async () => {
-    if (!cvText) return alert("No CV text");
-
-    setLoading(true);
-
-    try {
-      const res = await api.post("/chat/roadmap/", {
-        cv_text: cvText,
-      });
-
-      setRoadmap(res.data.roadmap);
-    } catch {
-      alert("Failed to generate roadmap");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <main className={styles.resultPage}>
@@ -44,6 +22,8 @@ export default function ResultPage() {
 
         <hr />
 
+        {/* ANALYSIS */}
+
         <div className={styles.resultContent}>
           {result ? (
             <div className={styles.analysisText}>
@@ -56,26 +36,19 @@ export default function ResultPage() {
           )}
         </div>
 
-        {result && (
-          <div className={styles.resultActions}>
-            <button
-              className="btn btnPrimary"
-              onClick={generateRoadmap}
-              disabled={loading || roadmap}
-            >
-              {loading ? "Generating..." : "Generate 3-Month Roadmap"}
-            </button>
-          </div>
-        )}
+        {/* ROADMAP */}
 
         {roadmap && (
           <div className={styles.aiResults}>
             <h3>Your Learning Roadmap</h3>
+
             <div className={styles.analysisText}>
               <ReactMarkdown>{roadmap}</ReactMarkdown>
             </div>
           </div>
         )}
+
+        {/* ACTION */}
 
         <div className={styles.resultActions}>
           <button
