@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import styles from "./css/Project.module.css";
 import api from "../api";
 
@@ -45,7 +46,9 @@ export default function ResultPage() {
 
         <div className={styles.resultContent}>
           {result ? (
-            <p className={styles.analysisText}>{result}</p>
+            <div className={styles.analysisText}>
+              <ReactMarkdown>{result}</ReactMarkdown>
+            </div>
           ) : (
             <p className={styles.emptyState}>
               No analysis data found. Please upload and analyze a resume first.
@@ -68,7 +71,9 @@ export default function ResultPage() {
         {roadmap && (
           <div className={styles.aiResults}>
             <h3>Your Learning Roadmap</h3>
-            <pre>{roadmap}</pre>
+            <div className={styles.analysisText}>
+              <ReactMarkdown>{roadmap}</ReactMarkdown>
+            </div>
           </div>
         )}
 

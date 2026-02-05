@@ -478,3 +478,31 @@
     flex-direction: column;
   }
 }
+
+.analysisText h2 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.analysisText ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.analysisText li {
+  margin-bottom: 6px;
+}
+
+.analysisText p {
+  margin-bottom: 10px;
+}
+
+.analysisText strong {
+  font-weight: 600;
+}
+
+.aiResults h2 {
+  margin-top: 24px;
+}
