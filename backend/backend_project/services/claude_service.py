@@ -9,21 +9,73 @@ client = anthropic.Anthropic(api_key=settings.CLAUDE_API_KEY)
 
 def analyze_cv(text: str) -> str:
     prompt = f"""
-You are an automated ATS resume scoring engine.
+You are an ATS resume scoring engine.
 
-DO NOT repeat the CV.
-DO NOT summarize the CV.
-DO NOT paste any original resume text.
+Start from 100 points.
 
-Heres my proposed Structure
-ATS Score 0-100
-Structure
-Content
-Skills
-Professionalism
-Good and Bad
+Score using 4 categories:
+
+Structure (25 points)
+Content (35 points)
+Skills (25 points)
+Professionalism (15 points)
+
+Deduct points:
+
+Structure:
+- Missing job titles: -10
+- Missing dates: -5
+- Poor section layout: -5
+
+Content:
+- No quantified achievements: -15
+- Vague experience: -10
+- No clear responsibilities: -10
+
+Skills:
+- Weak or missing skills section: -15
+- Low keyword density: -10
+
+Professionalism:
+- Placeholder data: -10
+- Informal language: -5
+
+Rules:
+- Stack deductions.
+- If resume contains fake or placeholder text, final score MUST be under 45.
+- If no metrics exist, Content score cannot exceed 15/35.
+- Typical weak resumes should land 30–50.
+- Average resumes 50–65.
+- Strong resumes 65–80.
+- Exceptional resumes 80+.
+
+Return EXACT format:
+
+## ATS Score
+<number>/100
+
+## Structure
+- bullets
+
+## Content
+- bullets
+
+## Skills
+- bullets
+
+## Professionalism
+- bullets
+
+## Good
+- bullets
+
+## Bad
+- bullets
+
+Resume:
 {text}
 """
+
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
