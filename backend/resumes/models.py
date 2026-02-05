@@ -13,9 +13,10 @@ class CV(models.Model):
     )
 
     file = models.FileField(upload_to="cvs/")
-    extracted_text = models.TextField(blank=True)
-    analysis = models.TextField(blank=True)
-    roadmap = models.TextField(blank=True)
+    extracted_text = models.TextField(blank=True, null=True)
+    analysis = models.TextField(blank=True, null=True)
+    roadmap = models.TextField(blank=True, null=True)
+
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
