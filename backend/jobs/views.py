@@ -23,11 +23,19 @@ class JobListCreateView(generics.ListCreateAPIView):
         serializer.save(
             recruiter=self.request.user,
             is_active=True,
-            is_approved=True,
-    )
+            is_approved=False,
+        )
+
         
     def get_queryset(self):
-        return Job.objects.all().order_by("-created_at")
+        if self.request.user.is_authenticated and self.request.user.is_staff:
+            return Job.objects.all().order_by("-created_at")
+
+        return Job.objects.filter(
+            is_active=True,
+            is_approved=True
+        ).order_by("-created_at")
+
     def get_serializer_context(self):
         return {"request": self.request}
 
@@ -37,7 +45,12 @@ class JobListCreateView(generics.ListCreateAPIView):
 class JobDetailView(generics.RetrieveAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Job.objects.all()
+    def get_queryset(self):
+        if self.request.user.is_authenticated and self.request.user.is_staff:
+            return Job.objects.all()
+
+        return Job.objects.filter(is_active=True, is_approved=True)
+
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

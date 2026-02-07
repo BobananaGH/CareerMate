@@ -53,7 +53,7 @@ class AdminArticleListAPIView(APIView):
     permission_classes = [IsAdminUserCustom]
 
     def get(self, request):
-        articles = Article.objects.order_by("-created_at")[:50]
+        articles = Article.objects.select_related("author").order_by("-created_at")[:50]
 
         from .serializers import ArticleAdminSerializer
         return Response(ArticleAdminSerializer(articles, many=True).data)
@@ -64,7 +64,10 @@ class AdminArticleListAPIView(APIView):
         if not article_id:
             return Response({"error": "Article id required"}, status=400)
 
-        Article.objects.filter(id=article_id).delete()
+        article = get_object_or_404(Article, id=article_id)
+        article.is_active = False
+        article.save()
+
 
         articles = Article.objects.select_related("author").order_by("-created_at")[:50]
         from .serializers import ArticleAdminSerializer
@@ -122,3 +125,28 @@ class AdminApplicationDetailAPIView(APIView):
             ApplicationAdminSerializer(application).data,
             status=status.HTTP_200_OK,
         )
+        
+class AdminApproveArticleAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def patch(self, request, pk):
+        article = get_object_or_404(Article, pk=pk)
+        article.is_approved = True
+        article.is_active = True
+
+        article.save()
+        return Response({"success": True})
+
+class AdminApproveJobAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUserCustom]
+
+    def patch(self, request, pk):
+        job = get_object_or_404(Job, pk=pk)
+
+        job.is_approved = True
+        job.is_active = True
+        job.save()
+
+        return Response({"success": True})
