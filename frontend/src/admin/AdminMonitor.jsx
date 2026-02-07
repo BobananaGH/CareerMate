@@ -46,10 +46,10 @@ export default function AdminMonitor({ user }) {
         api.get("/users/admin/users/"),
       ]);
 
-      setArticles(art.data);
       setConversations(conv.data);
       setCVs(cv.data);
-      setJobs(job.data);
+      setJobs([...job.data]);
+      setArticles([...art.data]);
       setApplications(app.data);
       setUsers(usr.data);
     } catch {
@@ -149,14 +149,20 @@ export default function AdminMonitor({ user }) {
     a.click();
   };
 
-  const approveArticle = async (id) => {
-    await api.patch(`/admin/monitoring/articles/${id}/approve/`);
-    fetchAdminData();
-  };
-
   const approveJob = async (id) => {
     await api.patch(`/admin/monitoring/jobs/${id}/approve/`);
-    fetchAdminData();
+
+    setJobs((prev) =>
+      prev.map((j) => (j.id === id ? { ...j, is_approved: true } : j)),
+    );
+  };
+
+  const approveArticle = async (id) => {
+    await api.patch(`/admin/monitoring/articles/${id}/approve/`);
+
+    setArticles((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, is_approved: true } : a)),
+    );
   };
 
   return (
