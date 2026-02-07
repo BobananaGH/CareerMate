@@ -155,6 +155,11 @@ export default function AdminMonitor({ user }) {
     fetchAdminData();
   };
 
+  const approveJob = async (id) => {
+    await api.patch(`/admin/monitoring/jobs/${id}/approve/`);
+    fetchAdminData();
+  };
+
   return (
     <div className={styles.container}>
       <h1>Admin Monitor</h1>
@@ -245,12 +250,25 @@ export default function AdminMonitor({ user }) {
               <tr key={j.id}>
                 <td>{j.title}</td>
                 <td>{j.recruiter_email}</td>
-                <td>{j.applications?.length || 0}</td>
+                <td>{j.is_approved ? "Approved" : "Pending"}</td>
+
+                <td>
+                  {!j.is_approved && (
+                    <button
+                      className="btn btnSm"
+                      onClick={() => approveJob(j.id)}
+                    >
+                      Approve
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
+
+      {/* ARTICLES */}
 
       {tab === "articles" && (
         <table className={styles.table}>
