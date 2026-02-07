@@ -33,7 +33,7 @@ class ArticleAdminSerializer(serializers.ModelSerializer):
     author_email = serializers.EmailField(source="author.email", read_only=True)
     class Meta:
         model = Article
-        fields = ["id", "title", "content", "created_at", "author_email"]
+        fields = ["id", "title", "content", "created_at", "author_email","is_approved","is_active",]
 
 class ApplicationAdminSerializer(serializers.ModelSerializer):
     candidate_email = serializers.EmailField(source="candidate.email", read_only=True)

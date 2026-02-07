@@ -17,6 +17,8 @@ class JobSerializer(serializers.ModelSerializer):
             "created_at",
             "recruiter_email",
             "applied",
+            "is_approved",
+            "is_active",
         ]
 
     def get_applied(self, obj):
