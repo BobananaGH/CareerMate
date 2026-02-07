@@ -35,7 +35,6 @@ export default function AdminMonitor({ user }) {
 
   const fetchAdminData = useCallback(async () => {
     if (!user?.is_staff) return;
-    if (initialLoad && !loading) setLoading(true);
 
     try {
       const [conv, cv, job, art, app, usr] = await Promise.all([
@@ -59,7 +58,7 @@ export default function AdminMonitor({ user }) {
 
     setInitialLoad(false);
     setLoading(false);
-  }, [initialLoad, user, loading]);
+  }, [user]);
 
   useEffect(() => {
     if (!user?.is_staff) return;
