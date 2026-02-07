@@ -14,6 +14,7 @@ export default function AdminMonitor({ user }) {
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
   const [tab, setTab] = useState("cvs");
+  const [articles, setArticles] = useState([]);
 
   const [expandedConvId, setExpandedConvId] = useState(null);
 
@@ -37,14 +38,16 @@ export default function AdminMonitor({ user }) {
     if (initialLoad && !loading) setLoading(true);
 
     try {
-      const [conv, cv, job, app, usr] = await Promise.all([
+      const [conv, cv, job, art, app, usr] = await Promise.all([
         api.get("/admin/monitoring/conversations/"),
         api.get("/admin/monitoring/cvs/"),
         api.get("/admin/monitoring/jobs/"),
+        api.get("/admin/monitoring/articles/"),
         api.get("/admin/monitoring/applications/"),
         api.get("/users/admin/users/"),
       ]);
 
+      setArticles(art.data);
       setConversations(conv.data);
       setCVs(cv.data);
       setJobs(job.data);
@@ -94,17 +97,18 @@ export default function AdminMonitor({ user }) {
   const filteredConversations = conversations.filter((c) =>
     c.user_email?.toLowerCase().includes(lower),
   );
-
   const currentData =
     tab === "cvs"
       ? filteredCVs
       : tab === "jobs"
         ? jobs
-        : tab === "applications"
-          ? filteredApplications
-          : tab === "conversations"
-            ? filteredConversations
-            : sortedUsers;
+        : tab === "articles"
+          ? articles
+          : tab === "applications"
+            ? filteredApplications
+            : tab === "conversations"
+              ? filteredConversations
+              : sortedUsers;
 
   const maxPage = Math.max(1, Math.ceil(currentData.length / PAGE_SIZE));
   const paginate = (arr) => arr.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -146,6 +150,11 @@ export default function AdminMonitor({ user }) {
     a.click();
   };
 
+  const approveArticle = async (id) => {
+    await api.patch(`/admin/monitoring/articles/${id}/approve/`);
+    fetchAdminData();
+  };
+
   return (
     <div className={styles.container}>
       <h1>Admin Monitor</h1>
@@ -159,7 +168,14 @@ export default function AdminMonitor({ user }) {
       </div>
 
       <div className={styles.tabs}>
-        {["cvs", "jobs", "applications", "conversations", "users"].map((t) => (
+        {[
+          "cvs",
+          "jobs",
+          "articles",
+          "applications",
+          "conversations",
+          "users",
+        ].map((t) => (
           <button
             key={t}
             className={`btn btnSm ${tab === t ? "btnPrimary" : "btnOutline"}`}
@@ -230,6 +246,31 @@ export default function AdminMonitor({ user }) {
                 <td>{j.title}</td>
                 <td>{j.recruiter_email}</td>
                 <td>{j.applications?.length || 0}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {tab === "articles" && (
+        <table className={styles.table}>
+          <tbody>
+            {paginate(articles).map((a) => (
+              <tr key={a.id}>
+                <td>{a.title}</td>
+                <td>{a.author_email}</td>
+                <td>{a.is_approved ? "Approved" : "Pending"}</td>
+
+                <td>
+                  {!a.is_approved && (
+                    <button
+                      className="btn btnSm"
+                      onClick={() => approveArticle(a.id)}
+                    >
+                      Approve
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
